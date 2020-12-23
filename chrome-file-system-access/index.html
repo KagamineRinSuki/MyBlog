@@ -4,9 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Chrome 访问本地文件系统, リンちゃんなうの部屋">
-    <meta name="description" content="本文为翻译文章https://web.dev/file-system-access/
-">
+    <meta name="keywords" content="文件系统访问 API：简化访问本地文件, リンちゃんなうの部屋">
+    <meta name="description" content="原文章：https://web.dev/file-system-access/什么是文件系统访问 API文件系统访问 API（The File System Access API，之前又叫 Native File System API，更之">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Chrome 访问本地文件系统 | リンちゃんなうの部屋</title>
+    <title>文件系统访问 API：简化访问本地文件 | リンちゃんなうの部屋</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,7 +286,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Chrome 访问本地文件系统</h1>
+                    <h1 class="description center-align post-title">文件系统访问 API：简化访问本地文件</h1>
                 </div>
             </div>
         </div>
@@ -462,7 +461,17 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="本文为翻译文章"><a href="#本文为翻译文章" class="headerlink" title="本文为翻译文章"></a>本文为翻译文章</h2><p><a href="https://web.dev/file-system-access/" target="_blank" rel="noopener">https://web.dev/file-system-access/</a></p>
+                <h2 id="原文章：https-web-dev-file-system-access"><a href="#原文章：https-web-dev-file-system-access" class="headerlink" title="原文章：https://web.dev/file-system-access/"></a>原文章：<a href="https://web.dev/file-system-access/" target="_blank" rel="noopener">https://web.dev/file-system-access/</a></h2><h2 id="什么是文件系统访问-API"><a href="#什么是文件系统访问-API" class="headerlink" title="什么是文件系统访问 API"></a>什么是文件系统访问 API</h2><p>文件系统访问 API（<a href="https://wicg.github.io/file-system-access/" target="_blank" rel="noopener">The File System Access API</a>，之前又叫 Native File System API，更之前叫 Writeable Files API）使得开发者们能够构建能与用户本地设备文件交互的强大 Web 应用，比如 IDE、图像视频编辑器、文本编辑器等。一旦用户允许了 Web 应用对本地文件的访问，此 API 可以使 Web 应用直接对用户设备上的文件和文件夹进行读与保存修改。除了读写文件，文件系统访问 API 还提供了打开目录以及列举目录内容的能力。</p>
+<p>如果你曾经进行过文件读写，那你会很熟悉我下面分享的内容。不过我还是鼓励你读一下这篇文章，因为不是所有的系统都是类似的。</p>
+<p><strong>（原作者注：我们庆祝倾注了很多想法到了文件系统访问 API 的设计与实现中，以确保人们能够轻松的管理他们的文件。查看 [Secruity and permissions] 部分来获取更多信息。)</strong></p>
+<h2 id="文章进度（原文中已经全部完成）"><a href="#文章进度（原文中已经全部完成）" class="headerlink" title="文章进度（原文中已经全部完成）"></a>文章进度（原文中已经全部完成）</h2><p>前往 <a href="https://web.dev/file-system-access/#status" target="_blank" rel="noopener">https://web.dev/file-system-access/#status</a> 查看</p>
+<h2 id="使用文件系统访问-API"><a href="#使用文件系统访问-API" class="headerlink" title="使用文件系统访问 API"></a>使用文件系统访问 API</h2><p>为了展示文件系统访问 API 的能力与好用，我写了一个单文件<a href="https://googlechromelabs.github.io/text-editor/" target="_blank" rel="noopener">文本编辑器</a>。它可以让你打开一个文本文件，编辑它，将修改保存回本地磁盘，或者新建一个文件然后保存修改到本地磁盘。这并不是什么精致（fancy）的东西，但它足以帮你理解概念。</p>
+<h3 id="试试看"><a href="#试试看" class="headerlink" title="试试看"></a>试试看</h3><p>看看文件系统访问 API 在<a href="https://googlechromelabs.github.io/text-editor/" target="_blank" rel="noopener">文本编辑器</a> demo 中的表现。</p>
+<h3 id="从本地文件系统读取一个文件"><a href="#从本地文件系统读取一个文件" class="headerlink" title="从本地文件系统读取一个文件"></a>从本地文件系统读取一个文件</h3><p>我想要做的第一件事是让用户选择一个文件，然后打开并从磁盘上读取这个文件。</p>
+<h4 id="让用户选择一个文件进行读取"><a href="#让用户选择一个文件进行读取" class="headerlink" title="让用户选择一个文件进行读取"></a>让用户选择一个文件进行读取</h4><p>文件系统访问 API 中的入口点（entry point）是 [<code>window.showOpenFilePicker()</code>](<a href="https://wicg.github.io/file-system-access/#api-showopenfilepicker。当调用它时，浏览器会弹出一个文件选择对话框，并让用户选择一个文件。" target="_blank" rel="noopener">https://wicg.github.io/file-system-access/#api-showopenfilepicker。当调用它时，浏览器会弹出一个文件选择对话框，并让用户选择一个文件。</a></p>
+<p>未完待续。。。</p>
+<p>To be continued …</p>
+<p>つづく。。。</p>
 
             </div>
             <hr/>
@@ -593,16 +602,15 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.png" class="responsive-img" alt="Chrome 访问本地文件系统">
+                        <img src="/medias/featureimages/0.png" class="responsive-img" alt="文件系统访问 API：简化访问本地文件">
                         
-                        <span class="card-title">Chrome 访问本地文件系统</span>
+                        <span class="card-title">文件系统访问 API：简化访问本地文件</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            本文为翻译文章https://web.dev/file-system-access/
-
+                            原文章：https://web.dev/file-system-access/什么是文件系统访问 API文件系统访问 API（The File System Access API，之前又叫 Native File System API，更之
                         
                     </div>
                     <div class="publish-info">
