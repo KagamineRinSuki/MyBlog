@@ -4,6 +4,39 @@
   
     
     <entry>
+      <title>Chrome 访问本地文件系统</title>
+      <link href="/chrome-file-system-access/"/>
+      <url>/chrome-file-system-access/</url>
+      
+        <content type="html"><![CDATA[<h2 id="本文为翻译文章"><a href="#本文为翻译文章" class="headerlink" title="本文为翻译文章"></a>本文为翻译文章</h2><p><a href="https://web.dev/file-system-access/" target="_blank" rel="noopener">https://web.dev/file-system-access/</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 编程学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Javascript </tag>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Web </tag>
+            
+            <tag> Chrome </tag>
+            
+            <tag> 文章翻译 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Socket.io 踩坑记录</title>
       <link href="/socket-io-issues/"/>
       <url>/socket-io-issues/</url>
@@ -20,9 +53,9 @@
       
         <tags>
             
-            <tag> Node.js </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Node.js </tag>
             
             <tag> Golang </tag>
             
@@ -49,9 +82,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Javascript </tag>
+            
+            <tag> 学习 </tag>
             
             <tag> Web USB </tag>
             
