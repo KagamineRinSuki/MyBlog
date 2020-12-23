@@ -403,12 +403,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Javascript/">
-                                <span class="chip bg-color">Javascript</span>
-                            </a>
-                        
                             <a href="/tags/%E5%AD%A6%E4%B9%A0/">
                                 <span class="chip bg-color">学习</span>
+                            </a>
+                        
+                            <a href="/tags/Javascript/">
+                                <span class="chip bg-color">Javascript</span>
                             </a>
                         
                             <a href="/tags/Web/">
@@ -461,14 +461,73 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="原文章：https-web-dev-file-system-access"><a href="#原文章：https-web-dev-file-system-access" class="headerlink" title="原文章：https://web.dev/file-system-access/"></a>原文章：<a href="https://web.dev/file-system-access/" target="_blank" rel="noopener">https://web.dev/file-system-access/</a></h2><h2 id="什么是文件系统访问-API"><a href="#什么是文件系统访问-API" class="headerlink" title="什么是文件系统访问 API"></a>什么是文件系统访问 API</h2><p>文件系统访问 API（<a href="https://wicg.github.io/file-system-access/" target="_blank" rel="noopener">The File System Access API</a>，之前又叫 Native File System API，更之前叫 Writeable Files API）使得开发者们能够构建能与用户本地设备文件交互的强大 Web 应用，比如 IDE、图像视频编辑器、文本编辑器等。一旦用户允许了 Web 应用对本地文件的访问，此 API 可以使 Web 应用直接对用户设备上的文件和文件夹进行读与保存修改。除了读写文件，文件系统访问 API 还提供了打开目录以及列举目录内容的能力。</p>
-<p>如果你曾经进行过文件读写，那你会很熟悉我下面分享的内容。不过我还是鼓励你读一下这篇文章，因为不是所有的系统都是类似的。</p>
-<p><strong>（原作者注：我们庆祝倾注了很多想法到了文件系统访问 API 的设计与实现中，以确保人们能够轻松的管理他们的文件。查看 [Secruity and permissions] 部分来获取更多信息。)</strong></p>
+                <h2 id="原文章：https-web-dev-file-system-access"><a href="#原文章：https-web-dev-file-system-access" class="headerlink" title="原文章：https://web.dev/file-system-access/"></a>原文章：<a href="https://web.dev/file-system-access/" target="_blank" rel="noopener">https://web.dev/file-system-access/</a></h2><h2 id="什么是文件系统访问-API"><a href="#什么是文件系统访问-API" class="headerlink" title="什么是文件系统访问 API"></a>什么是文件系统访问 API</h2><p>文件系统访问 API（<a href="https://wicg.github.io/file-system-access/" target="_blank" rel="noopener">The File System Access API</a>，之前又叫 Native File System API，更之前叫 Writeable Files API）使得开发者们能够构建能与用户本地设备文件交互的强大 Web 应用，比如 IDE、图像视频编辑器、文本编辑器等。一旦用户允许了 Web 应用访问本地文件的请求，此 API 便可以使 Web 应用直接对用户设备上的文件和文件夹进行读写修改。除了读写文件，文件系统访问 API 还提供了打开目录以及列举目录内容的能力。</p>
+<p>如果你曾经操作过文件读写，那你会很熟悉我下面分享的内容。不过我还是鼓励你读一下这篇文章，因为不是所有的系统都是类似的。</p>
+<p><strong>（原作者注：对于文件系统访问 API 的设计与实现我们进行了深思熟虑，以确保人们能够轻松的管理他们的文件。查看 [Secruity and permissions] 部分来获取更多信息。)</strong></p>
 <h2 id="文章进度（原文中已经全部完成）"><a href="#文章进度（原文中已经全部完成）" class="headerlink" title="文章进度（原文中已经全部完成）"></a>文章进度（原文中已经全部完成）</h2><p>前往 <a href="https://web.dev/file-system-access/#status" target="_blank" rel="noopener">https://web.dev/file-system-access/#status</a> 查看</p>
-<h2 id="使用文件系统访问-API"><a href="#使用文件系统访问-API" class="headerlink" title="使用文件系统访问 API"></a>使用文件系统访问 API</h2><p>为了展示文件系统访问 API 的能力与好用，我写了一个单文件<a href="https://googlechromelabs.github.io/text-editor/" target="_blank" rel="noopener">文本编辑器</a>。它可以让你打开一个文本文件，编辑它，将修改保存回本地磁盘，或者新建一个文件然后保存修改到本地磁盘。这并不是什么精致（fancy）的东西，但它足以帮你理解概念。</p>
+<h2 id="使用文件系统访问-API"><a href="#使用文件系统访问-API" class="headerlink" title="使用文件系统访问 API"></a>使用文件系统访问 API</h2><p>为了展示文件系统访问 API 的强大与好用，我写了一个单文件<a href="https://googlechromelabs.github.io/text-editor/" target="_blank" rel="noopener">文本编辑器</a>。它可以让你打开一个文本文件，编辑它，将修改保存回本地，或者新建一个文件然后保存修改到本地。这并不是什么精致（fancy）的东西，但它足以帮你理解概念。</p>
 <h3 id="试试看"><a href="#试试看" class="headerlink" title="试试看"></a>试试看</h3><p>看看文件系统访问 API 在<a href="https://googlechromelabs.github.io/text-editor/" target="_blank" rel="noopener">文本编辑器</a> demo 中的表现。</p>
 <h3 id="从本地文件系统读取一个文件"><a href="#从本地文件系统读取一个文件" class="headerlink" title="从本地文件系统读取一个文件"></a>从本地文件系统读取一个文件</h3><p>我想要做的第一件事是让用户选择一个文件，然后打开并从磁盘上读取这个文件。</p>
-<h4 id="让用户选择一个文件进行读取"><a href="#让用户选择一个文件进行读取" class="headerlink" title="让用户选择一个文件进行读取"></a>让用户选择一个文件进行读取</h4><p>文件系统访问 API 中的入口点（entry point）是 [<code>window.showOpenFilePicker()</code>](<a href="https://wicg.github.io/file-system-access/#api-showopenfilepicker。当调用它时，浏览器会弹出一个文件选择对话框，并让用户选择一个文件。" target="_blank" rel="noopener">https://wicg.github.io/file-system-access/#api-showopenfilepicker。当调用它时，浏览器会弹出一个文件选择对话框，并让用户选择一个文件。</a></p>
+<h4 id="让用户选择一个文件进行读取"><a href="#让用户选择一个文件进行读取" class="headerlink" title="让用户选择一个文件进行读取"></a>让用户选择一个文件进行读取</h4><p>文件系统访问 API 中的入口点（entry point）是 <a href="https://wicg.github.io/file-system-access/#api-showopenfilepicker" target="_blank" rel="noopener"><code>window.showOpenFilePicker()</code></a>。当调用它时，浏览器会弹出一个文件选择对话框，并让用户选择一个文件。用户选择完文件后，此 API 会返回一个文件句柄（handle）数组。<code>option</code> 参数可以让你影响文件选择器的行为，比如允许用户选择多个文件，目录或者其他文件类型。如果你没有指定 <code>option</code> 参数，选择器只让用户选择一个文件。这对于一个文本编辑器来说恰到好处。</p>
+<p>和众多强大的 API 一样，必须在一个<a href="https://w3c.github.io/webappsec-secure-contexts/" target="_blank" rel="noopener">安全上下文（secure context）</a>中完成对 <code>showOpenFilePicker()</code> 的调用并且只能在一个 user gesture（详见 Chromium 对此的定义） 中被调用。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">let</span> fileHandle<span class="token punctuation">;</span>
+butOpenFile<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Destructure the one-element array.</span>
+  <span class="token punctuation">[</span>fileHandle<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span><span class="token function">showOpenFilePicker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// Do something with the file handle.</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>一旦用户选择了一个文件，<code>showOpenFilePicker()</code> 会返回一个句柄数组，在这种情况下会返回一个只有一个 <a href="https://wicg.github.io/file-system-access/#api-filesystemfilehandle" target="_blank" rel="noopener"><code>FileSystemFileHandle</code></a>  对象的数组，这个对象包含了需要和文件进行交互的属性和方法。</p>
+<p>我们需要维护一个对此句柄的引用以便后续使用，我们需要用它来进行保存文件或者其他文件操作。</p>
+<h4 id="从文件系统中读取一个文件"><a href="#从文件系统中读取一个文件" class="headerlink" title="从文件系统中读取一个文件"></a>从文件系统中读取一个文件</h4><p>现在你有了一个文件的句柄，这下你就能够拿到这个文件的属性或者访问这个文件本身。现在，我会简单地读读取它的内容。调用 <code>handle.getFile</code> 并返回一个 <a href="https://w3c.github.io/FileAPI/" target="_blank" rel="noopener"><code>File</code></a> 对象，它包含一个二进制文件（blob）。为了拿到二进制文件中的数据，调用<a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob" target="_blank" rel="noopener">它的方法</a>（<code>slice()</code> , <code>stream()</code>, <code>text()</code>, <code>arrayBuffer()</code>）。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> file <span class="token operator">=</span> <span class="token keyword">await</span> fileHandle<span class="token punctuation">.</span><span class="token function">getFile</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> contents <span class="token operator">=</span> <span class="token keyword">await</span> file<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>FileSystemFileHandle.getFile()</code> 返回的 <code>File</code> 对象只有对应的底层文件没有后被更改时可读。如果底层文件已经被修改饿了，那此 <code>File</code> 对象便会变为不可读，这时候你得重新调用 <code>getFile()</code> 来获取新的 <code>File</code> 对象来读取被更改的数据。</p>
+<h4 id="将上面的操作组合到一起"><a href="#将上面的操作组合到一起" class="headerlink" title="将上面的操作组合到一起"></a>将上面的操作组合到一起</h4><p>当用户点击打开（Open）按钮，浏览器会弹出文件选择器。当选中一个文件，这个应用会把读到的内容放入一个 <code>&lt;textarea&gt;</code> 中。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">let</span> fileHandle<span class="token punctuation">;</span>
+butOpenFile<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token punctuation">[</span>fileHandle<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span><span class="token function">showOpenFilePicker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> file <span class="token operator">=</span> <span class="token keyword">await</span> fileHandle<span class="token punctuation">.</span><span class="token function">getFile</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> contents <span class="token operator">=</span> <span class="token keyword">await</span> file<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  textArea<span class="token punctuation">.</span>value <span class="token operator">=</span> contents<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="将文件写入本地文件系统"><a href="#将文件写入本地文件系统" class="headerlink" title="将文件写入本地文件系统"></a>将文件写入本地文件系统</h3><p>在这个文本编辑器中，有两种方式来保存文件：<strong>保存（Save）</strong>和<strong>另存为（Save As）</strong>。<strong>保存</strong>使用之前的文件句柄简单地将修改写回原文件中。但是<strong>另存为</strong>创建了一个新的文件，并需要一个新的文件句柄。</p>
+<h4 id="创建一个新文件"><a href="#创建一个新文件" class="headerlink" title="创建一个新文件"></a>创建一个新文件</h4><p>为了保存一个文件，我们需要调用 <code>showSaveFilePicker()</code> 来让文件选择器变为“保存”模式，此模式下，文件选择器让用户选择一个文件来进行保存。在这个文件编辑器中，我想让它自动加上 <code>.txt</code> 的扩展名，所以我提供了一些额外的参数。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">getNewFileHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> options <span class="token operator">=</span> <span class="token punctuation">{</span>
+    types<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        description<span class="token punctuation">:</span> <span class="token string">'Text Files'</span><span class="token punctuation">,</span>
+        accept<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token string">'text/plain'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'.txt'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> handle <span class="token operator">=</span> <span class="token keyword">await</span> window<span class="token punctuation">.</span><span class="token function">showSaveFilePicker</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> handle<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="保存修改到本地磁盘"><a href="#保存修改到本地磁盘" class="headerlink" title="保存修改到本地磁盘"></a>保存修改到本地磁盘</h4><p>你可以 <a href="https://github.com/GoogleChromeLabs/text-editor/" target="_blank" rel="noopener">Github</a> 上找到我这个<a href="https://googlechromelabs.github.io/text-editor/" target="_blank" rel="noopener">文本编辑器</a> demo 的所有代码。核心的文件系统交互部分在 <code>fs-helpers.js</code> 中。简单来说，整个过程如以下代码所示。我会一步一步地进行解释。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">writeFile</span><span class="token punctuation">(</span>fileHandle<span class="token punctuation">,</span> contents<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Create a FileSystemWritableFileStream to write to.</span>
+  <span class="token keyword">const</span> writable <span class="token operator">=</span> <span class="token keyword">await</span> fileHandle<span class="token punctuation">.</span><span class="token function">createWritable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// Write the contents of the file to the stream.</span>
+  <span class="token keyword">await</span> writable<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>contents<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// Close the file and write the contents to disk.</span>
+  <span class="token keyword">await</span> writable<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>向磁盘中写入数据需要利用 <a href="https://wicg.github.io/file-system-access/#api-filesystemwritablefilestream" target="_blank" rel="noopener"><code>FileSystemWritableFileStream</code></a> 对象，其本质是一个  <a href="https://developer.mozilla.org/en-US/docs/Web/API/WritableStream" target="_blank" rel="noopener"><code>WritableStream</code></a>。调用 <code>createWritable()</code> 为文件句柄对象创建文件流（stream）。调用 <code>createWritable()</code> 后，浏览器会先向用户请求文件的写权限。如果你拒绝了此请求，<code>createWritable()</code> 会抛出异常 <code>DOMException</code>，你的应用也没办法写这个文件。在这个文件编辑器中，<code>saveFile()</code> 方法会处理这些 <code>DOMException</code> 异常。</p>
+<p>你可以从文件编辑器中获取你要写的字符串（string）作为 <code>write()</code> 方法的参数传入。也可以直接获取 <a href="https://developer.mozilla.org/en-US/docs/Web/API/BufferSource" target="_blank" rel="noopener">BufferSource</a> 或者 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob" target="_blank" rel="noopener">Blob</a>。例如，你可以直接向文件传输数据流（pipe a stream）：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">writeURLToFile</span><span class="token punctuation">(</span>fileHandle<span class="token punctuation">,</span> url<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Create a FileSystemWritableFileStream to write to.</span>
+  <span class="token keyword">const</span> writable <span class="token operator">=</span> <span class="token keyword">await</span> fileHandle<span class="token punctuation">.</span><span class="token function">createWritable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// Make an HTTP request for the contents.</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// Stream the response into the file.</span>
+  <span class="token keyword">await</span> response<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">pipeTo</span><span class="token punctuation">(</span>writable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// pipeTo() closes the destination pipe by default, no need to close it.</span>
+<span class="token punctuation">}</span></code></pre>
+<p>你可以在文件流中使用 <a href="https://wicg.github.io/file-system-access/#api-filesystemwritablefilestream-seek" target="_blank" rel="noopener"><code>seek()</code></a> 或者 <a href="https://wicg.github.io/file-system-access/#api-filesystemwritablefilestream-truncate" target="_blank" rel="noopener"><code>truncate()</code></a> 方法来精确定位文件中的位置，或者改变文件的大小。</p>
+<p><strong>（原作者提醒：直到文件流关闭前修改都不会写入磁盘，可以通过调用 <code>close()</code> 或者等文件流自动关闭）</strong></p>
 <p>未完待续。。。</p>
 <p>To be continued …</p>
 <p>つづく。。。</p>
@@ -535,12 +594,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Javascript/">
-                                    <span class="chip bg-color">Javascript</span>
-                                </a>
-                            
                                 <a href="/tags/%E5%AD%A6%E4%B9%A0/">
                                     <span class="chip bg-color">学习</span>
+                                </a>
+                            
+                                <a href="/tags/Javascript/">
+                                    <span class="chip bg-color">Javascript</span>
                                 </a>
                             
                                 <a href="/tags/Web/">
@@ -633,12 +692,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Javascript/">
-                        <span class="chip bg-color">Javascript</span>
-                    </a>
-                    
                     <a href="/tags/%E5%AD%A6%E4%B9%A0/">
                         <span class="chip bg-color">学习</span>
+                    </a>
+                    
+                    <a href="/tags/Javascript/">
+                        <span class="chip bg-color">Javascript</span>
                     </a>
                     
                     <a href="/tags/Web/">
@@ -699,12 +758,12 @@ https://blog.csdn.net/yonggeit/article/details/1025866
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%AD%A6%E4%B9%A0/">
-                        <span class="chip bg-color">学习</span>
-                    </a>
-                    
                     <a href="/tags/Node-js/">
                         <span class="chip bg-color">Node.js</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">学习</span>
                     </a>
                     
                     <a href="/tags/Golang/">
