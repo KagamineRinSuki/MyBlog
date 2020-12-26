@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="文件系统访问 API：简化访问本地文件, リンちゃんなうの部屋">
-    <meta name="description" content="原文章：https://web.dev/file-system-access/什么是文件系统访问 API文件系统访问 API（The File System Access API，之前又叫 Native File System API，更之">
+    <meta name="keywords" content="File System Access API：简化访问本地文件, リンちゃんなうの部屋">
+    <meta name="description" content="原文章：https://web.dev/file-system-access/原作者 Thomas Steiner（@tomayac）已同意。
+什么是 File System Access APIFile System Access API">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>文件系统访问 API：简化访问本地文件 | リンちゃんなうの部屋</title>
+    <title>File System Access API：简化访问本地文件 | リンちゃんなうの部屋</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -286,7 +287,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">文件系统访问 API：简化访问本地文件</h1>
+                    <h1 class="description center-align post-title">File System Access API：简化访问本地文件</h1>
                 </div>
             </div>
         </div>
@@ -461,14 +462,15 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="原文章：https-web-dev-file-system-access"><a href="#原文章：https-web-dev-file-system-access" class="headerlink" title="原文章：https://web.dev/file-system-access/"></a>原文章：<a href="https://web.dev/file-system-access/" target="_blank" rel="noopener">https://web.dev/file-system-access/</a></h2><h2 id="什么是文件系统访问-API"><a href="#什么是文件系统访问-API" class="headerlink" title="什么是文件系统访问 API"></a>什么是文件系统访问 API</h2><p>文件系统访问 API（<a href="https://wicg.github.io/file-system-access/" target="_blank" rel="noopener">The File System Access API</a>，之前又叫 Native File System API，更之前叫 Writeable Files API）使得开发者们能够构建能与用户本地设备文件交互的强大 Web 应用，比如 IDE、图像视频编辑器、文本编辑器等。一旦用户允许了 Web 应用访问本地文件的请求，此 API 便可以使 Web 应用直接对用户设备上的文件和文件夹进行读写修改。除了读写文件，文件系统访问 API 还提供了打开目录以及列举目录内容的能力。</p>
+                <h2 id="原文章：https-web-dev-file-system-access"><a href="#原文章：https-web-dev-file-system-access" class="headerlink" title="原文章：https://web.dev/file-system-access/"></a>原文章：<a href="https://web.dev/file-system-access/" target="_blank" rel="noopener">https://web.dev/file-system-access/</a></h2><p>原作者 Thomas Steiner（<a href="https://twitter.com/tomayac" target="_blank" rel="noopener">@tomayac</a>）已同意。</p>
+<h2 id="什么是-File-System-Access-API"><a href="#什么是-File-System-Access-API" class="headerlink" title="什么是 File System Access API"></a>什么是 File System Access API</h2><p>File System Access API（<a href="https://wicg.github.io/file-system-access/" target="_blank" rel="noopener">The File System Access API</a>，之前又叫 Native File System API，更之前叫 Writeable Files API）使得开发者们能够构建能与用户本地设备文件交互的强大 Web 应用，比如 IDE、图像视频编辑器、文本编辑器等。一旦用户允许了 Web 应用访问本地文件的请求，此 API 便可以使 Web 应用直接对用户设备上的文件和文件夹进行读写修改。除了读写文件， File System Access API 还提供了打开目录以及列举目录内容的能力。</p>
 <p>如果你曾经操作过文件读写，那你会很熟悉我下面分享的内容。不过我还是鼓励你读一下这篇文章，因为不是所有的系统都是类似的。</p>
-<p><strong>（原作者注：对于文件系统访问 API 的设计与实现我们进行了深思熟虑，以确保人们能够轻松的管理他们的文件。查看 [Secruity and permissions] 部分来获取更多信息。)</strong></p>
+<p><strong>（原作者注：对于 File System Access API 的设计与实现我们进行了深思熟虑，以确保人们能够轻松的管理他们的文件。查看 <a href="##安全与权限">安全与权限</a> 部分来获取更多信息。)</strong></p>
 <h2 id="文章进度（原文中已经全部完成）"><a href="#文章进度（原文中已经全部完成）" class="headerlink" title="文章进度（原文中已经全部完成）"></a>文章进度（原文中已经全部完成）</h2><p>前往 <a href="https://web.dev/file-system-access/#status" target="_blank" rel="noopener">https://web.dev/file-system-access/#status</a> 查看</p>
-<h2 id="使用文件系统访问-API"><a href="#使用文件系统访问-API" class="headerlink" title="使用文件系统访问 API"></a>使用文件系统访问 API</h2><p>为了展示文件系统访问 API 的强大与好用，我写了一个单文件<a href="https://googlechromelabs.github.io/text-editor/" target="_blank" rel="noopener">文本编辑器</a>。它可以让你打开一个文本文件，编辑它，将修改保存回本地，或者新建一个文件然后保存修改到本地。这并不是什么精致（fancy）的东西，但它足以帮你理解概念。</p>
-<h3 id="试试看"><a href="#试试看" class="headerlink" title="试试看"></a>试试看</h3><p>看看文件系统访问 API 在<a href="https://googlechromelabs.github.io/text-editor/" target="_blank" rel="noopener">文本编辑器</a> demo 中的表现。</p>
+<h2 id="使用-File-System-Access-API"><a href="#使用-File-System-Access-API" class="headerlink" title="使用 File System Access API"></a>使用 File System Access API</h2><p>为了展示 File System Access API 的强大与好用，我写了一个单文件<a href="https://googlechromelabs.github.io/text-editor/" target="_blank" rel="noopener">文本编辑器</a>。它可以让你打开一个文本文件，编辑它，将修改保存回本地，或者新建一个文件然后保存修改到本地。这并不是什么精致（fancy）的东西，但它足以帮你理解概念。</p>
+<h3 id="试试看"><a href="#试试看" class="headerlink" title="试试看"></a>试试看</h3><p>看看 File System Access API 在<a href="https://googlechromelabs.github.io/text-editor/" target="_blank" rel="noopener">文本编辑器</a> demo 中的表现。</p>
 <h3 id="从本地文件系统读取一个文件"><a href="#从本地文件系统读取一个文件" class="headerlink" title="从本地文件系统读取一个文件"></a>从本地文件系统读取一个文件</h3><p>我想要做的第一件事是让用户选择一个文件，然后打开并从磁盘上读取这个文件。</p>
-<h4 id="让用户选择一个文件进行读取"><a href="#让用户选择一个文件进行读取" class="headerlink" title="让用户选择一个文件进行读取"></a>让用户选择一个文件进行读取</h4><p>文件系统访问 API 中的入口点（entry point）是 <a href="https://wicg.github.io/file-system-access/#api-showopenfilepicker" target="_blank" rel="noopener"><code>window.showOpenFilePicker()</code></a>。当调用它时，浏览器会弹出一个文件选择对话框，并让用户选择一个文件。用户选择完文件后，此 API 会返回一个文件句柄（handle）数组。<code>option</code> 参数可以让你影响文件选择器的行为，比如允许用户选择多个文件，目录或者其他文件类型。如果你没有指定 <code>option</code> 参数，选择器只让用户选择一个文件。这对于一个文本编辑器来说恰到好处。</p>
+<h4 id="让用户选择一个文件进行读取"><a href="#让用户选择一个文件进行读取" class="headerlink" title="让用户选择一个文件进行读取"></a>让用户选择一个文件进行读取</h4><p>File System Access API 中的入口点（entry point）是 <a href="https://wicg.github.io/file-system-access/#api-showopenfilepicker" target="_blank" rel="noopener"><code>window.showOpenFilePicker()</code></a>。当调用它时，浏览器会弹出一个文件选择对话框，并让用户选择一个文件。用户选择完文件后，此 API 会返回一个文件句柄（handle）数组。<code>option</code> 参数可以让你影响文件选择器的行为，比如允许用户选择多个文件，目录或者其他文件类型。如果你没有指定 <code>option</code> 参数，选择器只让用户选择一个文件。这对于一个文本编辑器来说恰到好处。</p>
 <p>和众多强大的 API 一样，必须在一个<a href="https://w3c.github.io/webappsec-secure-contexts/" target="_blank" rel="noopener">安全上下文（secure context）</a>中完成对 <code>showOpenFilePicker()</code> 的调用并且只能在一个 user gesture（详见 Chromium 对此的定义） 中被调用。</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">let</span> fileHandle<span class="token punctuation">;</span>
 butOpenFile<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -573,7 +575,7 @@ butDir<span class="token punctuation">.</span><span class="token function">addEv
 <span class="token keyword">await</span> directoryHandle<span class="token punctuation">.</span><span class="token function">removeEntry</span><span class="token punctuation">(</span><span class="token string">'Abandoned Masterplan.txt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// Recursively delete a folder.</span>
 <span class="token keyword">await</span> directoryHandle<span class="token punctuation">.</span><span class="token function">removeEntry</span><span class="token punctuation">(</span><span class="token string">'Old Stuff'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> recursive<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h3 id="集成拖放（Drag-and-drop）功能"><a href="#集成拖放（Drag-and-drop）功能" class="headerlink" title="集成拖放（Drag and drop）功能"></a>集成拖放（Drag and drop）功能</h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API" target="_blank" rel="noopener">HTML Drag and Drop interfaces</a> 让 Web 应用可以接受直接将文件拖放到网页中。在拖放操作中，拖拽文件或目录项将分别关联到文件或目录项的入口（entry）。当拖拽文件时，<code>DataTransferItem.getAsFileSystemHandle()</code> 方法会返回一个包含 <code>FileSystemFileHandle</code> 对象的 promise 对象，当拖拽目录时，一个包含 <code>FileSystemDirectoryHandle</code> 对象的 promise 对象。下面的代码展示了这一过程。注意，无论是文件还是目录， Drag and Drop interface 中的  <a href="https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/kind" target="_blank" rel="noopener"><code>DataTransferItem.kind</code></a> 都是 <code>&quot;file&quot;</code> ，然而文件系统访问 API 中的  <a href="https://wicg.github.io/file-system-access/#dom-filesystemhandle-kind" target="_blank" rel="noopener"><code>FileSystemHandle.kind</code></a>  会区分为 <code>&quot;file&quot;</code> 和 <code>&quot;direcotry&quot;</code>。</p>
+<h3 id="集成拖放（Drag-and-drop）功能"><a href="#集成拖放（Drag-and-drop）功能" class="headerlink" title="集成拖放（Drag and drop）功能"></a>集成拖放（Drag and drop）功能</h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API" target="_blank" rel="noopener">HTML Drag and Drop interfaces</a> 让 Web 应用可以接受直接将文件拖放到网页中。在拖放操作中，拖拽文件或目录项将分别关联到文件或目录项的入口（entry）。当拖拽文件时，<code>DataTransferItem.getAsFileSystemHandle()</code> 方法会返回一个包含 <code>FileSystemFileHandle</code> 对象的 promise 对象，当拖拽目录时，一个包含 <code>FileSystemDirectoryHandle</code> 对象的 promise 对象。下面的代码展示了这一过程。注意，无论是文件还是目录， Drag and Drop interface 中的  <a href="https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/kind" target="_blank" rel="noopener"><code>DataTransferItem.kind</code></a> 都是 <code>&quot;file&quot;</code> ，然而 File System Access API 中的  <a href="https://wicg.github.io/file-system-access/#dom-filesystemhandle-kind" target="_blank" rel="noopener"><code>FileSystemHandle.kind</code></a>  会区分为 <code>&quot;file&quot;</code> 和 <code>&quot;direcotry&quot;</code>。</p>
 <pre class=" language-javascript"><code class="language-javascript">elem<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'dragover'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">// Prevent navigation.</span>
   e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -596,9 +598,40 @@ elem<span class="token punctuation">.</span><span class="token function">addEven
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>未完待续。。。</p>
-<p>To be continued …</p>
-<p>つづく。。。</p>
+<h3 id="访问域私有文件系统（the-origin-private-file-system）"><a href="#访问域私有文件系统（the-origin-private-file-system）" class="headerlink" title="访问域私有文件系统（the origin-private file system）"></a>访问域私有文件系统（the origin-private file system）</h3><p>如这个名字所说，域私有文件系统是网页的域私有的存储端点（注：也就是说这个文件系统是这个网页独有的，你刷新页面就变成一个新的了）。浏览器通常将网页的域私有文件系统中的内容存在磁盘的某个位置，但是不会让你轻易找到。显然，你在你电脑真实的文件系统上也是找不到相应名字的域私有文件系统的内容的。浏览器只是让它看起来像个文件系统罢了，事实上这些文件可能存储在数据库或者其他数据结构中。重要的事再说一遍：当你使用这个 API（指域私有文件系统的）的时候，不要指望能在你的硬盘上找到1：1的对应。拿到域私有文件系统根目录（root）的 <code>FileSystemDirectoryHandle</code> 之后，你可以像操作普通文件系统一样操作它。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> root <span class="token operator">=</span> <span class="token keyword">await</span> navigator<span class="token punctuation">.</span>storage<span class="token punctuation">.</span><span class="token function">getDirectory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Create a new file handle.</span>
+<span class="token keyword">const</span> fileHandle <span class="token operator">=</span> <span class="token keyword">await</span> root<span class="token punctuation">.</span><span class="token function">getFileHandle</span><span class="token punctuation">(</span><span class="token string">'Untitled.txt'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> create<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Create a new directory handle.</span>
+<span class="token keyword">const</span> dirHandle <span class="token operator">=</span> <span class="token keyword">await</span> root<span class="token punctuation">.</span><span class="token function">getDirectoryHandle</span><span class="token punctuation">(</span><span class="token string">'New Folder'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> create<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Recursively remove a directory.</span>
+<span class="token keyword">await</span> root<span class="token punctuation">.</span><span class="token function">removeEntry</span><span class="token punctuation">(</span><span class="token string">'Old Stuff'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> recursive<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="Polyfilling"><a href="#Polyfilling" class="headerlink" title="Polyfilling"></a>Polyfilling</h2><p>(注：Polyfill 为 Web 开发者中的黑话，大致意思是实现浏览器不支持的原生 API 代码。具体意义请自行 Google。)</p>
+<p>我们也可以自己实现一些 File System Access API 中的方法。</p>
+<ul>
+<li><code>showOpenFilePicker()</code> 可以约等于 <code>&lt;input type=&quot;file&quot;&gt;</code> 元素。</li>
+<li><code>showSaveFilePicker()</code> 可以通过 <code>&lt;a download=&quot;file_name&quot;</code> 元素来模拟，但是尽管这个可以触发下载，但是它不允许覆盖已存在的文件。</li>
+<li><code>showDirectoryPicker()</code> 可以通过 <code>&lt;input type=&quot;file&quot; webkitdirectory&gt;</code> 元素来模拟。（不过这个未被标准化）</li>
+</ul>
+<p>我们开发了一个叫  <a href="https://web.dev/browser-nativefs/" target="_blank" rel="noopener">browser-nativefs</a> 的库来尽可能地使用 File System Access API， 如果你无法使用，你可以使用上述的次优方案。</p>
+<h2 id="安全与权限"><a href="#安全与权限" class="headerlink" title="安全与权限"></a>安全与权限</h2><p>Chrome 团队设计和实现 File System Access API 的核心原则定义在  <a href="https://chromium.googlesource.com/chromium/src/+/lkgr/docs/security/permissions-for-powerful-web-platform-features.md" target="_blank" rel="noopener">Controlling Access to Powerful Web Platform Features</a> 中，包括了用户控制、透明度和用户工效（ ergonomics）几方面。</p>
+<h3 id="打开文件或保存新文件"><a href="#打开文件或保存新文件" class="headerlink" title="打开文件或保存新文件"></a>打开文件或保存新文件</h3><p>当打开一个文件，用户通过文件选择器提供读文件或目录的权限。文件选择器只能在  <a href="https://w3c.github.io/webappsec-secure-contexts/" target="_blank" rel="noopener">secure context</a> 中通过 user gesture 触发（注：就是需要用户自己点击才能弹出文件选择器）。如果用户不想打开了，他们可以直接取消，然后网站拿不到任何访问权限。这个和 <code>&lt;input type=&quot;file&quot;&gt;</code> 是一样的。</p>
+<p><img src="https://webdev.imgix.net/file-system-access/fs-open.jpg" alt="File picker to open a file for reading"></p>
+<p>同样的，当一个 Web 应用想要保存一个新文件，浏览器也会弹出一个保存文件的选择器，让用户选择保存的文件名和路径。当用户保存一个新文件（或者覆盖一个老文件），文件选择器会授予应用对这个文件的写权限。</p>
+<p><img src="https://webdev.imgix.net/file-system-access/fs-save.jpg" alt="File picker to save a file to disk."></p>
+<h4 id="被限制的文件夹"><a href="#被限制的文件夹" class="headerlink" title="被限制的文件夹"></a>被限制的文件夹</h4><p>为了保护用户和他们的数据，浏览器可能会限制用户访问特定文件夹的能力，比如核心的操作系统文件夹。出现这种情况时，浏览器会弹窗提示用户另选一个文件夹。</p>
+<h3 id="更改一个已存在的文件或目录"><a href="#更改一个已存在的文件或目录" class="headerlink" title="更改一个已存在的文件或目录"></a>更改一个已存在的文件或目录</h3><p>Web 应用只有得到用户明确的允许之后才能更改本地文件。</p>
+<h4 id="权限提示"><a href="#权限提示" class="headerlink" title="权限提示"></a>权限提示</h4><p>当用户想要保存修改到有读权限的本地文件时，浏览去会弹出提示为整个网站询求这个文件的写权限。这个权限请求只能被 user gesture 触发，比如按下保存按钮。</p>
+<p><img src="https://webdev.imgix.net/file-system-access/fs-save-permission-crop.jpg" alt="Permission prompt shown prior to saving a file."></p>
+<p>另外，一些编辑多文件的 Web 应用（比如 IDE），可能在打开文件的时候就请求保存修改的权限。</p>
+<p>如果用户选择取消（Cancle），Web 应用就没办法保存修改到本地。应该提供其他让用户保存他们数据的方法，比如提供  <a href="https://developers.google.com/web/updates/2011/08/Downloading-resources-in-HTML5-a-download" target="_blank" rel="noopener">“download” the file</a> 这样的链接，或者保存数据到云端等等。</p>
+<h3 id="透明性"><a href="#透明性" class="headerlink" title="透明性"></a>透明性</h3><p>用户授予 Web 应用保存文件的权限后，浏览器的 URL 栏上会显示一个图标。点击这个图标会弹出一个可访问文件列表。用户可以选择撤销对某些文件的权限。</p>
+<p><img src="https://webdev.imgix.net/file-system-access/fs-save-icon.jpg" alt="Omnibox icon"></p>
+<h3 id="权限有效期"><a href="#权限有效期" class="headerlink" title="权限有效期"></a>权限有效期</h3><p>只要你不关闭这个域下的所有标签页，Web 应用就可以保持已有的权限。一旦你关闭了所有标签页，网站就会失去所有的访问权限。用户下次再打开这个 Web 应用，就需要重新按照提示赋予文件访问权限。</p>
+<h3 id="反馈"><a href="#反馈" class="headerlink" title="反馈"></a>反馈</h3><p>如果你想对 API 的设计者说点什么，有问题，或者想反馈 BUG，请前往原网站进行下一步的操作。<a href="https://web.dev/file-system-access/#feedback" target="_blank" rel="noopener">https://web.dev/file-system-access/#feedback</a></p>
+<h2 id="我自己想说的话"><a href="#我自己想说的话" class="headerlink" title="我自己想说的话"></a>我自己想说的话</h2><p>这应该是目前为止（2020-12-26）我写的最长的一篇博客了吧，虽然全文的都是翻译的别人的文章。。。我是用这个 File System Access API 的起因是我在公司实习突然接盘了一个搁置了半年的项目，然后这个项目由于没有客户端人力，所以就然我暂时赶出一版 Web 应用来完成大致的功能（虽然我是后端开发）。由于有访问本地文件的需求，我通过 Google 找到了这个不久前才更新的 Chrome API（版本 83），还真是及时。。不过到本文完成的时候，我已经转向 Electron 开发了，也就是说，这个 API 其实我已经放弃使用了。作为浏览器提供的  API，它的功能真的有很大的局限性，不过如果要写一个在线的编辑器啥的是真的很方便。</p>
+<p>作为浏览器上的网页应用，确实要在安全性和方便性之间做出取舍，像这个 API 就没办法直接获取本地文件系统的信息，不像 node 的 fs 模块，这也是我最后又选择重构为 Electron 的原因。。。</p>
+<p>找了一份后台开发的实习，但我怎么感觉在前端和客户端开发的道路上越走越远了呢。。而且也没有人系统地带我，全靠自己摸索。。。我这实习真的有什么大的意义吗（除了恰烂钱）。。。</p>
 
             </div>
             <hr/>
@@ -729,15 +762,16 @@ elem<span class="token punctuation">.</span><span class="token function">addEven
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.png" class="responsive-img" alt="文件系统访问 API：简化访问本地文件">
+                        <img src="/medias/featureimages/0.png" class="responsive-img" alt="File System Access API：简化访问本地文件">
                         
-                        <span class="card-title">文件系统访问 API：简化访问本地文件</span>
+                        <span class="card-title">File System Access API：简化访问本地文件</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            原文章：https://web.dev/file-system-access/什么是文件系统访问 API文件系统访问 API（The File System Access API，之前又叫 Native File System API，更之
+                            原文章：https://web.dev/file-system-access/原作者 Thomas Steiner（@tomayac）已同意。
+什么是 File System Access APIFile System Access API
                         
                     </div>
                     <div class="publish-info">
