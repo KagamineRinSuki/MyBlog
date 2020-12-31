@@ -5,8 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="Socket.io 踩坑记录, リンちゃんなうの部屋">
-    <meta name="description" content="つづく…Referencehttps://github.com/googollee/go-socket.io/issues/242
-https://blog.csdn.net/yonggeit/article/details/1025866">
+    <meta name="description" content="最近由于项目需要接触了 socket.io 这一套工具，它本身是一个 Node.js 的包，使用 long polling 或者 websocket 的方式提供持续的网络连接服务。由于简单好用（虽然我在知乎上看到有人说这玩意儿就是给小白玩的">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -437,7 +436,7 @@ https://blog.csdn.net/yonggeit/article/details/1025866">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-12-18
+                    2020-12-31
                 </div>
                 
 
@@ -454,7 +453,9 @@ https://blog.csdn.net/yonggeit/article/details/1025866">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="つづく…"><a href="#つづく…" class="headerlink" title="つづく…"></a>つづく…</h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://github.com/googollee/go-socket.io/issues/242" target="_blank" rel="noopener">https://github.com/googollee/go-socket.io/issues/242</a></p>
+                <p>最近由于项目需要接触了 socket.io 这一套工具，它本身是一个 Node.js 的包，使用 long polling 或者 websocket 的方式提供持续的网络连接服务。由于简单好用（虽然我在知乎上看到有人说这玩意儿就是给小白玩的，2333），很多开发者为其开发了不同语言的 SDK，比如 Java、C++、Go 等，然后我项目的前端用的 Node.js，后端用 Golang。由于 socket.io 本身的设计以及 Go 版本开源库的残缺，踩了很多坑，我决定在这篇博客中好好总结一下。</p>
+<h2 id="跨域请求的问题"><a href="#跨域请求的问题" class="headerlink" title="跨域请求的问题"></a>跨域请求的问题</h2><p>未完待续。。。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://github.com/googollee/go-socket.io/issues/242" target="_blank" rel="noopener">https://github.com/googollee/go-socket.io/issues/242</a></p>
 <p><a href="https://blog.csdn.net/yonggeit/article/details/102586637" target="_blank" rel="noopener">https://blog.csdn.net/yonggeit/article/details/102586637</a></p>
 
             </div>
@@ -569,9 +570,68 @@ https://blog.csdn.net/yonggeit/article/details/1025866">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/socket-io-issues/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.png" class="responsive-img" alt="Socket.io 踩坑记录">
+                        
+                        <span class="card-title">Socket.io 踩坑记录</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            最近由于项目需要接触了 socket.io 这一套工具，它本身是一个 Node.js 的包，使用 long polling 或者 websocket 的方式提供持续的网络连接服务。由于简单好用（虽然我在知乎上看到有人说这玩意儿就是给小白玩的
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-31
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                    编程学习
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Node-js/">
+                        <span class="chip bg-color">Node.js</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">学习</span>
+                    </a>
+                    
+                    <a href="/tags/Golang/">
+                        <span class="chip bg-color">Golang</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/chrome-file-system-access/">
                     <div class="card-image">
@@ -590,9 +650,9 @@ https://blog.csdn.net/yonggeit/article/details/1025866">
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-23
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-23
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -626,64 +686,6 @@ https://blog.csdn.net/yonggeit/article/details/1025866">
                     
                     <a href="/tags/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AF%91/">
                         <span class="chip bg-color">文章翻译</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/web-usb-connector/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/0.png" class="responsive-img" alt="使用 Chrome 浏览器连接 USB 设备">
-                        
-                        <span class="card-title">使用 Chrome 浏览器连接 USB 设备</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            项目地址https://github.com/RinChanNOWWW/web_usb_connector
-前言在公司 mentor 给我说来了一个需求，想要能够通过 Web 配置终端设备的一些设置，让我看看怎么用浏览器通过 USB 连接到
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-20
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" class="post-category">
-                                    编程学习
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%AD%A6%E4%B9%A0/">
-                        <span class="chip bg-color">学习</span>
-                    </a>
-                    
-                    <a href="/tags/Javascript/">
-                        <span class="chip bg-color">Javascript</span>
-                    </a>
-                    
-                    <a href="/tags/Web-USB/">
-                        <span class="chip bg-color">Web USB</span>
                     </a>
                     
                 </div>
