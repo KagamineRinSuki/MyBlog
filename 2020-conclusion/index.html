@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Socket.io 踩坑记录, リンちゃんなうの部屋">
-    <meta name="description" content="最近由于项目需要接触了 socket.io 这一套工具，它本身是一个 Node.js 的包，使用 long polling 或者 websocket 的方式（在我的项目中我是用的是 websocket）提供持续的网络连接服务。由于简单好用（">
+    <meta name="keywords" content="2020, リンちゃんなうの部屋">
+    <meta name="description" content="最近发现无聊的时候写博客是一种很好的消遣方式，恰逢本科快毕业了，那就写一篇博客来回味我无趣但又充实的一年吧。
+学业大三下学期是在家中度过的，上网课可以说是非常的水，选了4门专业课我都觉得选少了，害得我大四还要选3门。回想过去三年的大学课程，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Socket.io 踩坑记录 | リンちゃんなうの部屋</title>
+    <title>2020 | リンちゃんなうの部屋</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -286,7 +287,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Socket.io 踩坑记录</h1>
+                    <h1 class="description center-align post-title">2020</h1>
                 </div>
             </div>
         </div>
@@ -403,16 +404,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E5%AD%A6%E4%B9%A0/">
-                                <span class="chip bg-color">学习</span>
+                            <a href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
+                                <span class="chip bg-color">年终总结</span>
                             </a>
                         
-                            <a href="/tags/Node-js/">
-                                <span class="chip bg-color">Node.js</span>
-                            </a>
-                        
-                            <a href="/tags/Golang/">
-                                <span class="chip bg-color">Golang</span>
+                            <a href="/tags/%E6%B5%81%E6%B0%B4%E8%B4%A6/">
+                                <span class="chip bg-color">流水账</span>
                             </a>
                         
                     </div>
@@ -423,8 +420,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" class="post-category">
-                                编程学习
+                            <a href="/categories/%E7%94%9F%E6%B4%BB/" class="post-category">
+                                生活
                             </a>
                         
                     </div>
@@ -436,7 +433,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-12-31
+                    2021-01-02
                 </div>
                 
 
@@ -453,52 +450,32 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>最近由于项目需要接触了 socket.io 这一套工具，它本身是一个 Node.js 的包，使用 long polling 或者 websocket 的方式（在我的项目中我是用的是 websocket）提供持续的网络连接服务。由于简单好用（虽然我在知乎上看到有人说这玩意儿就是给小白玩的，2333），很多开发者为其开发了不同语言的 SDK，比如 Java、C++、Go 等，然后我项目的前端用的 Node.js，后端用 Golang。由于 socket.io 本身的设计以及 Go 版本开源库的残缺，踩了很多坑，我决定在这篇博客中好好总结一下。</p>
-<h2 id="跨域请求的问题"><a href="#跨域请求的问题" class="headerlink" title="跨域请求的问题"></a>跨域请求的问题</h2><p>由于 go-socket.io 是基于 http 服务器的，在建立 websocket 连接的时候会先发送一个 get 请求，由于请求是跨域的，所以理所应当会被服务器给拦下来，然后返回一个 403，所以首先得处理跨域的问题。</p>
-<p>处理这个问题有很多种方式。</p>
-<p>第一种方式是直接拿到请求后把 Header 里的 Origin 字段干掉，然后再交给接下来的 http 处理逻辑处理。第二种方式是添加一个中间件来设置 Header 中的允许跨域字段，这两种方式在这个 issue 中都有实现方法： <a href="https://github.com/googollee/go-socket.io/issues/242" target="_blank" rel="noopener">https://github.com/googollee/go-socket.io/issues/242</a></p>
-<p>第三种方式是社区开发者们新提供的方式，就是在启动 socket.io server 的 option 中指定允许的域名，这算是最合适的一种方法了吧。</p>
-<pre class=" language-go"><code class="language-go">allowOrigin <span class="token operator">:=</span> <span class="token keyword">func</span><span class="token punctuation">(</span>r <span class="token operator">*</span>http<span class="token punctuation">.</span>Request<span class="token punctuation">)</span> <span class="token builtin">bool</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token boolean">true</span>
-<span class="token punctuation">}</span>
-server<span class="token punctuation">,</span> err <span class="token operator">:=</span> socketio<span class="token punctuation">.</span><span class="token function">NewServer</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>engineio<span class="token punctuation">.</span>Options<span class="token punctuation">{</span>
-    Transports<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>transport<span class="token punctuation">.</span>Transport<span class="token punctuation">{</span>
-        <span class="token operator">&amp;</span>polling<span class="token punctuation">.</span>Transport<span class="token punctuation">{</span>
-        Client<span class="token punctuation">:</span> <span class="token operator">&amp;</span>http<span class="token punctuation">.</span>Client<span class="token punctuation">{</span>
-            Timeout<span class="token punctuation">:</span> time<span class="token punctuation">.</span>Minute<span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        CheckOrigin<span class="token punctuation">:</span> allowOrigin<span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token operator">&amp;</span>websocket<span class="token punctuation">.</span>Transport<span class="token punctuation">{</span>
-        CheckOrigin<span class="token punctuation">:</span> allowOrigin<span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<p>更多信息可以查看这个 issue：<a href="https://github.com/googollee/go-socket.io/issues/372" target="_blank" rel="noopener">https://github.com/googollee/go-socket.io/issues/372</a></p>
-<h2 id="go-socket-io-与-socket-io-的兼容性问题"><a href="#go-socket-io-与-socket-io-的兼容性问题" class="headerlink" title="go-socket.io 与 socket.io 的兼容性问题"></a>go-socket.io 与 socket.io 的兼容性问题</h2><p>在前端，我一开始使用的是 3.0 版本的 socket.io。结果发现建立连接的握手请求前后端对应不上，后端触发两次 connect 事件，之后也无法进行正常的双工通信，后来发现原来 go 这个库还不支持 2.0 版本及以上的 socket.io。这其中应该是通信协议上不一样。</p>
-<p>这个项目其实很早就已经搁置了，owner 在几年前就撒手不管了，这几年一直是靠开源社区的开发者们来维护，所以这个项目的进度迟迟得不到更新。目前这个库只支持 <a href="mailto:socket.io@2.0">socket.io@2.0</a> 之前的版本，不支持 2.0。</p>
-<p>如果实在要与 socket.io 2.0 进行对接，可以选用其他的语言进行开发，或者使用其他的几个 go 开源库，虽然这几个 star 不多，我也没用过。</p>
-<ul>
-<li><p><a href="https://github.com/pschlump/socketio" target="_blank" rel="noopener">https://github.com/pschlump/socketio</a></p>
-</li>
-<li><p><a href="https://github.com/ambelovsky/gosf-socketio" target="_blank" rel="noopener">https://github.com/ambelovsky/gosf-socketio</a></p>
-</li>
-</ul>
-<p>详情可见这个 issue：<a href="https://github.com/googollee/go-socket.io/issues/188" target="_blank" rel="noopener">https://github.com/googollee/go-socket.io/issues/188</a></p>
-<p>之后我也打算看看这个项目，看看能不能贡献点什么。</p>
-<h2 id="分布式场景下的问题"><a href="#分布式场景下的问题" class="headerlink" title="分布式场景下的问题"></a>分布式场景下的问题</h2><p>当我把我的后端服务部署到了集群上，我发现有些时候客户端收不到本应收到的消息。经过一系列的分析查找，我发现原来是因为不只有一个实例部署了我的服务，然后所有访问服务的请求都会被 nginx 网关按照一定策略进行负载均衡，然后再分配到某个实例上。又因为我将所有的 socket 连接上下文都存到了内存中，每次都从内存中提取会议中的连接者，再将消息发给他们，由于负载均衡的存在，同一个会议的连接可能被导向不同的实例，这种情况下一个连接生产的信息就无法转发给另一个连接。</p>
-<p>为解决这个问题可以从两方面入手。第一种是从负载均衡入手，nginx 的负载均衡策略有很多种，比如对 ip 进行 hash，或者对请求头中的某些信息进行 hash，然后将请求导向不同实例，我们可以更改策略将同一个会议的连接全部导向一个实例；第二种是使用消息中间件，将一个连接产生的消息推入消息队列中，然后另一个连接从中读取。</p>
-<p>经过多方面的考量，我最终选用了更改 nginx 负载均衡策略的方式，因为公司的各个消息中间件组件都有很大的局限性，下面我也会说说各种方案我是怎么想的。</p>
-<h3 id="负载均衡方案"><a href="#负载均衡方案" class="headerlink" title="负载均衡方案"></a>负载均衡方案</h3><p>socket.io 建立连接时会发送一个 GET 请求，然后开始进行握手，而我们可以自定义这个请求。但由于 socket.io 为了遵循 websocket 协议，当使用 websocket 协议传输时，我们没办法更改请求的 Header。但是我们仍然可以为请求添加 query 参数，比如我们可以让同一个会议的连接者请求时都在 query 中带上一个相同的标识，然后再将 nginx 的负载均衡策略改为只按照请求 uri 进行 hash，这样便可以将请求 uri 相同的所有连接都导向同一个实例。</p>
-<p>不过这种方案可能会出现热点问题，那就等之后真的出现了再说吧。（不过我应该是等不到那个时候了）</p>
-<h3 id="消息中间件方案"><a href="#消息中间件方案" class="headerlink" title="消息中间件方案"></a>消息中间件方案</h3><h4 id="Redis-消息队列"><a href="#Redis-消息队列" class="headerlink" title="Redis 消息队列"></a>Redis 消息队列</h4><p>其实 Redis 自己也实现了有消息队列功能的接口。消费者可以 Subscribe 一个 Channel，当生产者向 Channel 中推消息的时候，消费者便可以从此 Channel 中拿出消息。不过不幸的是，我们公司的 Redis 并没有支持这一功能，而且公司貌似禁用任何阻塞操作，遂作罢。另外，消费者是不是共同消费 Channel 中的消息，还是一个消费者一个副本，这个我也没有深入研究。</p>
-<h4 id="利用-Redis-缓存自行实现"><a href="#利用-Redis-缓存自行实现" class="headerlink" title="利用 Redis 缓存自行实现"></a>利用 Redis 缓存自行实现</h4><p>这是一个临时得不能再临时的方案，肯定是无法投入大规模使用的。这个方案简单来说，就是在 Redis 中保存有到某个会议连接的实例，生产者会为每一个实例生产一份消息，然后每一个实例取出自己的一份，在发给连接到自己的连接者。这个方案在逻辑上是很完美的，但是会极其消耗资源。首先，我的一个消息大概会有 8KB，这对于 Redis 来说本身就很离谱了；其次，要从 Redis 中拿出实时的消息，需要随时轮询 Redis，因为公司的 Redis 不提供阻塞操作，而不停的轮询是极其浪费资源的。处于这样的考虑，我还是暂时没选择这样的方案。</p>
-<h4 id="RocketMQ-等消息队列"><a href="#RocketMQ-等消息队列" class="headerlink" title="RocketMQ 等消息队列"></a>RocketMQ 等消息队列</h4><p>按理来说使用传统的消息队列是最靠谱的方案，生产者将消息推入消息队列，然后每一个订阅了的消费者都可以从中拿到消息。但是公司的消息队列组件看起来并不适合我们这业务场景。公司的 Kafka 主要是为离线业务服务，它会将消息转存到 HDFS，并不太适合我这样的实时在线业务。于是我选择了公司推荐的支持在线业务的 RocketMQ看一看。</p>
-<p>其实 RocketMQ 是支持广播消费的（就是生产者产生的每一个消息每一个订阅了的消费者都能消费到，与之对应的是集群消费，就是一个消费者消费了其他消费者就消费不到了），但是公司的 RocketMQ 组建尚未支持。<del>那我就又只能爬了。</del>其实消费组这一概念也可以实现这样的机制，但是公司的消息队列服务都是公用的，每一个 Topic 的 Consume Group 都需要单独申请，我不可能为每一个实例都手动申请一个，因为实例是弹性变化的。遂作罢。</p>
-<p>不过还是有一个方案的，就是自建一个消息队列服务，只给自己用，这样上面的问题就都迎刃而解了。不过这得以后有时间再来慢慢研究。。。</p>
-<h2 id="写在最后的吐槽与总结之类的话"><a href="#写在最后的吐槽与总结之类的话" class="headerlink" title="写在最后的吐槽与总结之类的话"></a>写在最后的吐槽与总结之类的话</h2><p>go-socket.io 这个库其实还有一些其他问题，比如并没有保证连接的线程安全，之后我也想仔细看看它的源码以及 socket.io 的源码与原理，希望能帮这个开源项目做一点优化和增强工作，也好填补一下之后漫长寒假的空虚（到时候可能就每天躺尸了）</p>
-<p>对于我接手的这个项目，虽然开发规模不大，主要逻辑也非常简单，比起我们的主要业务来说那就是小玩具，工程量和大作业差不多，但是也让我感受到了开发一个企业级应用需要考虑的各种事情，并且积累的挺多开发经验（虽然大部分是 Node.JS 和 TS 的经验）。</p>
-<p>最后不得不说，开源真是个好东西，节约了大量开发成本，再次感谢各位开源大佬。</p>
+                <p>最近发现无聊的时候写博客是一种很好的消遣方式，恰逢本科快毕业了，那就写一篇博客来回味我无趣但又充实的一年吧。</p>
+<h2 id="学业"><a href="#学业" class="headerlink" title="学业"></a>学业</h2><p>大三下学期是在家中度过的，上网课可以说是非常的水，选了4门专业课我都觉得选少了，害得我大四还要选3门。回想过去三年的大学课程，那可真是比高中轻松多了，甚至让我有了高中这么学说不定也能学得很好的错觉。我也不是什么志在科研的人，所以在这方面也没有太大的压力，能在课程中拿到不错的分数我就挺满意了。</p>
+<p>最终也顺利保上研了，保研到了传说中的“大交换”，找了一个看起来不错的导师，也算是终结了自己曾经那所谓的名校情结。由于我自己太怠惰，夏令营一个也没有参加，虽然有那么一点的遗憾，但是总体上由于我自己越来越佛系的态度，现在觉得在本校继续延续三年轻松愉悦的学生生活也挺好，就是还要继续作业考试论文不太愉悦。</p>
+<p>这么说来最大的遗憾可能是还是没有直接工作了2333333（主要是不想伤害父子感情，我们两个人估计在对方眼里都是冥顽不化吧，不过这方面的话题就说来话长了，之后心中又不快的时候估计会写写）。</p>
+<h2 id="专业"><a href="#专业" class="headerlink" title="专业"></a>专业</h2><p>大三下期末的时候投了AT和字节，阿里等到我尘埃落定了才来找我，腾讯面了一面，结果因为我不去深圳给我挂了，所以最后靠耿总的内推进了字节。</p>
+<p>七月份开始了实习，但实习内容和网上看的，听别人说的以及自己想象的都不一样。我投的是后台开发的岗位，结果很多时间都在为平台搭建前端。我后来也慢慢了解到，我们这个部门是新组建的，主要业务也是做设备，整个后端开发工作流以及团队建设都感觉不是很成熟。不过也省去了很多繁琐的开发流程。我进来之后基本也是自己独自摸索。</p>
+<p>2020说实话，我感觉我在我的专业领域中学到了很多，涨了很多见识，这我得好好感谢我的室友们，尤其是耿总，他以一己之力提升了我们宿舍的技术氛围。他真是一个独立自主，思想自由的人（虽然我并不赞成他的所有观点），他在2020对我的影响真的很大，相必对我们宿舍的其他人影响也很大。</p>
+<p>2020年我的专业能力可以说是“飞升”也不为过。从一个曾经因为不会一门编程语言被老师重拳出击（指计网课设）的CS萌新小白，变成了一个初窥门径的实习从业者，可以说是质的飞跃。虽说我大学报考专业一心咬死了计算机，但是感觉是在近两年我才开始逐渐感受到这个专业，这些学科，这些技术的魅力和乐趣。</p>
+<p>如果要具体点说（指流水账），那在编程语言方面，我熟悉了Golang，Javascript，Typescript这三门语言，还稍微接触了一下Java。对于前端，我了解了HTML和CSS，学习了React和Electron框架，与浏览器也打了很多的交道。对于后端，我了解了不少Node的东西，在耿总的影响下学习到了许多数据系统方面的知识，年末学习了Websocket和一些消息中间件的用法。我也开始初探一些分布式相关的知识，看了传说中的MIT神课6.824，不过还没看完，之后接着继续，做了它前三个lab，了解了MapReduce计算模型，以及大名鼎鼎的Raft一致性算法等。期间还拜读了《DDIA》，读了一半，接下来也会继续读。年末的时候真切的感受到了开源社区的强大，找到了许多能直接使用的代码库，节约了许多开发成本，也让我从这些大佬的代码中学到很多东西。还有许多其他我的东西，比如一些框架的设计思想，一些系统的架构，一些工具的用法和原理等，就不一一列举了。</p>
+<p>对于计算机这门学科，真的是想学的很多，想问的很多，希望自己能继续保持这份热情。</p>
+<h2 id="生活娱乐"><a href="#生活娱乐" class="headerlink" title="生活娱乐"></a>生活娱乐</h2><h3 id="现实生活"><a href="#现实生活" class="headerlink" title="现实生活"></a>现实生活</h3><p>上半年由于疫情在家，吃完饭基本就没有活动，体重暴涨快20斤，下半年通过减少饭量，以及游了几次泳（大概有点帮助）又减了10斤下来，总之还需要继续减。不过由于长期不吃晚饭和时常不吃早饭，现在胃貌似出了点问题。</p>
+<p>前不久和室友们一起去爬了一趟香山，可以说是把我折磨的够呛，可能是支气管炎的遗留问题，也可能是因为我长期不锻炼，爬山过程中我缺氧极其严重，脑袋胀痛发晕。然后年终和3位舍友去了个没有下一次的垃圾KTV唱歌。2020其余大部分时间都在家中和宿舍中度过，对于我来说算是再正常不过的了。当然还出了好几次勤，这个留到后面再说。</p>
+<h3 id="影视剧"><a href="#影视剧" class="headerlink" title="影视剧"></a>影视剧</h3><p>疫情在家第一次看了美剧，是一部职场喜剧，叫做《Brooklyn Nine Nine》，中文译作《神烦警探》，这部剧非常好看，情节设计的很巧妙，笑点也很足，每一季还有喜闻乐见的传统保留剧情。算上2020年的更新我一口气追了八季，听说今年有第九季，十分期待。然后在家无聊透顶的我重温了《神探狄仁杰》的前两季，以及《大宋提刑官》第一季，本来还想看《武林外传》的，但是我用的视频软件没有版权，遂作罢。</p>
+<p>电影看了《信条》，《姜子牙》以及《未来的未来》，都没有对我产生太大的触动，不过我本来就不常看电影。</p>
+<h3 id="动画和漫画"><a href="#动画和漫画" class="headerlink" title="动画和漫画"></a>动画和漫画</h3><p>其实在进入大学之后，我就没有怎么追漫画了，一般都是屯好几话然后一口气看，还有一个原因是，之前追的漫画太多了，然后很多都消失在了大版权时代的洪流中，我也懒得去找了，也没有那么多闲钱去买正版。一直在追的也就《辉夜大小姐》和《一拳超人》，之前还有《七原罪》，不过已经完结了，其余的都是想起来才看一下。</p>
+<p>动画倒是每个季度仍然看了很多，以及补了很多老番。如果要选出几部让我印象深刻的作品，那一定是《进击的巨人》，《别对映像研出手》以及《白箱》。《白箱》带给我的感动就像当初看《爆漫王》时的一样，中二期的我竟然错过了这一部佳作，实属不该。《巨人》还在更新中，剧情让人欲罢不能，而且我们宿舍还有一重度巨人厨</p>
+<p>《别对映像研出手》和《白箱》对于我们动画爱好者来说都是狂欢。其实去年本来还有天下第一的《摇曳露营》第二季的，但是跳票到今年一月了（不也挺好吗）。</p>
+<h3 id="恋爱"><a href="#恋爱" class="headerlink" title="恋爱"></a>恋爱</h3><p>无。希望接下来会有。</p>
+<h3 id="电子游戏"><a href="#电子游戏" class="headerlink" title="电子游戏"></a>电子游戏</h3><p>说到这个话题我可就更来劲了。虽然去年玩的不多，但是玩的时间还是挺长的。</p>
+<h4 id="音游"><a href="#音游" class="headerlink" title="音游"></a>音游</h4><p>2020可谓是SDVX音游力飞升的一年。2020年1月我还只是一个被17暴打的小魔骑，现在已经是后光刚力罗了。出勤也出了好几次，每一次出勤都感受到了地力的提升。移动端倒是没怎么玩了，Arcaea打不出出彩的成绩，遂不玩了。下半年开始玩了プロジェクトセカイ，虽然打击感很塑料，但是作为术术人，能玩到那么多曲子是真不戳。</p>
+<h4 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h4><p>去年又重新回坑了风暴，但是现在又回到半弃坑状态了。然后就是期待了一年的赛博朋克2077。。。怎么说呢，可以说是期待过头了，我本来期待的是GTA，结果来的还是巫师，嗯。。就这种感觉。。只能说我对CRPG着实没啥感觉。现在玩了20小时玩完了两个主要NPC的主线，接下来有兴趣了再继续推主线吧。</p>
+<h4 id="PS4"><a href="#PS4" class="headerlink" title="PS4"></a>PS4</h4><p>今年玩的最多的游戏非歌姬计划FTDX莫属了，这游戏是真好玩，老婆们跳舞是真好看，术曲是真好听，我玩的是真的垃圾。现在也就只能玩玩8星曲的样子，还得继续多练。</p>
+<p>除了歌姬计划，还借了隔壁隔壁宿舍小双同学的战神4碟子来玩，一连玩了几天通关了，真不愧是上个世代末的神作，剧情，玩法，任务设计都是一流，我已经迫不及待想玩战神5了。</p>
+<p>然后就用赛博朋克的退款买了蜘蛛侠莫拉尔斯，对于我这种第一次接触蜘蛛侠游戏的人来说是非常新鲜了，不过到后面也就是刷刷刷，剧情也是非常王道的超级英雄剧情，可以算得上一款佳作。</p>
+<p>接下来又体验了十三机兵，这游戏颠覆了我对文字冒险游戏的认识，总之是非常的想玩，等打折必入。</p>
+<h2 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h2><p>2021，希望家人和自己健康，希望研究生能和现在室友继续做室友，希望专业能力能更上一层楼，希望音游力继续飞升，希望能成为「或帝滅斗」，希望能有GTA6的消息，希望能看到更好看的动画片，希望能谈个恋爱。（当我正要更新这篇文章的时候，我发现我又一位室友脱单了，酸死我了）</p>
 
             </div>
             <hr/>
@@ -524,7 +501,7 @@ server<span class="token punctuation">,</span> err <span class="token operator">
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://rinchannowww.github.io/socket-io-issues/">https://rinchannowww.github.io/socket-io-issues/</a>
+                    <a href="https://rinchannowww.github.io/2020-conclusion/">https://rinchannowww.github.io/2020-conclusion/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -562,16 +539,12 @@ server<span class="token punctuation">,</span> err <span class="token operator">
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E5%AD%A6%E4%B9%A0/">
-                                    <span class="chip bg-color">学习</span>
+                                <a href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
+                                    <span class="chip bg-color">年终总结</span>
                                 </a>
                             
-                                <a href="/tags/Node-js/">
-                                    <span class="chip bg-color">Node.js</span>
-                                </a>
-                            
-                                <a href="/tags/Golang/">
-                                    <span class="chip bg-color">Golang</span>
+                                <a href="/tags/%E6%B5%81%E6%B0%B4%E8%B4%A6/">
+                                    <span class="chip bg-color">流水账</span>
                                 </a>
                             
                         </div>
@@ -612,9 +585,10 @@ server<span class="token punctuation">,</span> err <span class="token operator">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020-conclusion/">
                     <div class="card-image">
@@ -633,9 +607,9 @@ server<span class="token punctuation">,</span> err <span class="token operator">
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-02
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -648,6 +622,7 @@ server<span class="token punctuation">,</span> err <span class="token operator">
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -670,25 +645,24 @@ server<span class="token punctuation">,</span> err <span class="token operator">
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/chrome-file-system-access/">
+                <a href="/socket-io-issues/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.png" class="responsive-img" alt="File System Access API：简化访问本地文件">
+                        <img src="/medias/featureimages/0.png" class="responsive-img" alt="Socket.io 踩坑记录">
                         
-                        <span class="card-title">File System Access API：简化访问本地文件</span>
+                        <span class="card-title">Socket.io 踩坑记录</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            原文章：https://web.dev/file-system-access/原作者 Thomas Steiner（@tomayac）已同意。
-什么是 File System Access APIFile System Access API
+                            最近由于项目需要接触了 socket.io 这一套工具，它本身是一个 Node.js 的包，使用 long polling 或者 websocket 的方式（在我的项目中我是用的是 websocket）提供持续的网络连接服务。由于简单好用（
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-31
                             </span>
                         <span class="publish-author">
                             
@@ -705,24 +679,16 @@ server<span class="token punctuation">,</span> err <span class="token operator">
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Javascript/">
-                        <span class="chip bg-color">Javascript</span>
-                    </a>
-                    
                     <a href="/tags/%E5%AD%A6%E4%B9%A0/">
                         <span class="chip bg-color">学习</span>
                     </a>
                     
-                    <a href="/tags/Web/">
-                        <span class="chip bg-color">Web</span>
+                    <a href="/tags/Node-js/">
+                        <span class="chip bg-color">Node.js</span>
                     </a>
                     
-                    <a href="/tags/Chrome/">
-                        <span class="chip bg-color">Chrome</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AF%91/">
-                        <span class="chip bg-color">文章翻译</span>
+                    <a href="/tags/Golang/">
+                        <span class="chip bg-color">Golang</span>
                     </a>
                     
                 </div>
