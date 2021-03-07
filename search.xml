@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>记一次虚拟机搭建 k8s 集群踩的坑</title>
+      <link href="/k8s-vm-restart/"/>
+      <url>/k8s-vm-restart/</url>
+      
+        <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为了做毕设我用 VMware Workstation 创建了三台 Ubuntu Live Server 20.04.2 LTS 虚拟机来模拟一个三节点（Master * 1, Node * 2）的 k8s 集群，也成功地搭建了整个集群，然后我就将虚拟机挂机搁置了几天。当我重新打开三台虚拟机并在 master 上使用 <code>kubectl get nodes</code> 查看集群地时候，我发现两个 node 节点都处于 <code>Not Ready</code> 的状态，这明显不符合预期现象，于是我就把三台虚拟机都重启了（毕竟重启大法好），结果好家伙，这一重启什么都无了。</p><h2 id="问题发现"><a href="#问题发现" class="headerlink" title="问题发现"></a>问题发现</h2><p>一直盯着报错干瞪眼肯定是不可取的，于是我终于想起来可以看看运行日志。</p><pre class=" language-bash"><code class="language-bash"><span class="token function">service</span> kubelet status<span class="token comment" spellcheck="true"># 或者</span>journalctl -u kubelet.service -e</code></pre><p>结果发现是因为 master 节点（以及 node 节点）因为重启 IP地址都变了！然后 APIServer 就找不到各个节点。所以我现在要做的就是把 IP 地址归位。</p><p>一开始我只是简单的用 <code>ifconfig</code> 命令把节点的 IP 地址强行改了，然后发现还是不行，估计是由于 APIServer 需要配置各种证书，然后 IPv4 网关和 DNS 什么的也都没有配，一大堆乱七八糟的，索性直接重新搭建集群，并给虚拟机分配静态地址。</p><h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><h3 id="给虚拟机分配静态地址"><a href="#给虚拟机分配静态地址" class="headerlink" title="给虚拟机分配静态地址"></a>给虚拟机分配静态地址</h3><p>此方法只针对 Ubuntu Live Server 20.04.2 LTS，不同 OS 或者 Ubuntu  版本可能略有差异，并且我的虚拟机网络采用的 NAT 模式。</p><p>这个做起来其实很简单，首先进入 VMware Workstation 的编辑 -&gt; 虚拟网络编辑器 -&gt; NAT 设置，记下网关 IP，比如我的是 <code>192.168.58.2</code>，然后宿主机侧就不需要干什么了。</p><p>进入虚拟机，编辑文件 <code>/etc/netplan/00-installer-config.yaml</code>:</p><pre class=" language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true"># This is the network config written by 'subiquity'</span><span class="token key atrule">network</span><span class="token punctuation">:</span>  <span class="token key atrule">ethernets</span><span class="token punctuation">:</span>    <span class="token key atrule">ens33</span><span class="token punctuation">:</span>      <span class="token comment" spellcheck="true"># 要分配的静态地址</span>      <span class="token key atrule">addresses</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>192.168.58.128/24<span class="token punctuation">]</span>      <span class="token comment" spellcheck="true"># 关闭 DHCP</span>      <span class="token key atrule">dhcp4</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>      <span class="token comment" spellcheck="true"># 网关地址，即上面的那个地址</span>      <span class="token key atrule">gateway4</span><span class="token punctuation">:</span> 192.168.58.2      <span class="token key atrule">nameservers</span><span class="token punctuation">:</span>            <span class="token comment" spellcheck="true"># 网关地址</span>            <span class="token key atrule">addresses</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>192.168.58.2<span class="token punctuation">]</span>  <span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token number">2</span></code></pre><p>然后执行：</p><pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> netplan apply</code></pre><p>这样便可给虚拟机指定一个静态的 IP 地址，也不影响虚拟机和宿主机的互相访问。然后对每个节点进行同样的操作，只要 IP 地址不一样就行。</p><h3 id="重置-Kubernetes-集群"><a href="#重置-Kubernetes-集群" class="headerlink" title="重置 Kubernetes 集群"></a>重置 Kubernetes 集群</h3><p>在所有节点上执行重置命令：</p><pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> kubeadm reset</code></pre><p>在 master 节点上执行 init 命令，并重新创建 <code>.kube</code>目录。</p><pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> kubeadm init --image-repository<span class="token operator">=</span>registry.aliyuncs.com/google_containers<span class="token function">rm</span> -rf <span class="token variable">$HOME</span>/.kube<span class="token function">mkdir</span> -p <span class="token variable">$HOME</span>/.kube<span class="token function">sudo</span> <span class="token function">cp</span> -i /etc/kubernetes/admin.conf <span class="token variable">$HOME</span>/.kube/config<span class="token function">sudo</span> <span class="token function">chown</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">id</span> -u<span class="token variable">)</span></span><span class="token keyword">:</span><span class="token variable"><span class="token variable">$(</span><span class="token function">id</span> -g<span class="token variable">)</span></span> <span class="token variable">$HOME</span>/.kube/config</code></pre><p>然后再让 node 节点重新 join 集群就可以了。</p><pre class=" language-bash"><code class="language-bash">$ kubectl get nodesNAME         STATUS   ROLES                  AGE   VERSIONk8s-master   Ready    control-plane,master   40m   v1.20.4k8s-node1    Ready    <span class="token operator">&lt;</span>none<span class="token operator">></span>                 28m   v1.20.4k8s-node2    Ready    <span class="token operator">&lt;</span>none<span class="token operator">></span>                 28m   v1.20.4</code></pre><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>Kubernetes的理念就是构建一个长期运行的系统，所以我这种 reset 的方法其实也是不太可取的办法，然后就是一定不要改变集群中节点的 IP 地址，要不然会非常麻烦。我这也算是体验了一把运维人员的工作？</p><p>还有就是，VMware Workstation Pro 16 推出了一个叫 <code>vctl</code>的工具，他会建立一个容器给我们创建一个 Powershell 环境，让我们可以在里面运行 <a href="https://github.com/kubernetes-sigs/kind" target="_blank" rel="noopener">Kind</a> 来模拟 k8s 集群，今天试了试，拉镜像有点慢，所以就先没有搞了，以后可以好好研究一下。下面附上几个用于参考的地址：</p><ul><li><a href="https://docs.vmware.com/en/VMware-Workstation-Pro/16.0/com.vmware.ws.using.doc/GUID-1CA929BB-93A9-4F1C-A3A8-7A3A171FAC35.html" target="_blank" rel="noopener">https://docs.vmware.com/en/VMware-Workstation-Pro/16.0/com.vmware.ws.using.doc/GUID-1CA929BB-93A9-4F1C-A3A8-7A3A171FAC35.html</a> （English）</li><li><a href="https://kind.sigs.k8s.io/docs/user/quick-start/" target="_blank" rel="noopener">https://kind.sigs.k8s.io/docs/user/quick-start/</a> （English）</li><li><a href="https://qiita.com/YasuhiroABE/items/993a623c05d4dfe4d79c" target="_blank" rel="noopener">https://qiita.com/YasuhiroABE/items/993a623c05d4dfe4d79c</a> （日本語）</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 问题解决 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+            <tag> Virtual Machine </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2020</title>
       <link href="/2020-conclusion/"/>
       <url>/2020-conclusion/</url>
@@ -40,14 +67,12 @@
       
       <categories>
           
-          <category> 编程学习 </category>
+          <category> 问题解决 </category>
           
       </categories>
       
       
         <tags>
-            
-            <tag> 学习 </tag>
             
             <tag> Node.js </tag>
             
