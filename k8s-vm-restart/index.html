@@ -490,6 +490,9 @@ NAME         STATUS   ROLES                  AGE   VERSION
 k8s-master   Ready    control-plane,master   40m   v1.20.4
 k8s-node1    Ready    <span class="token operator">&lt;</span>none<span class="token operator">></span>                 28m   v1.20.4
 k8s-node2    Ready    <span class="token operator">&lt;</span>none<span class="token operator">></span>                 28m   v1.20.4</code></pre>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>后来又发现每次恢复虚拟机的时候  <code>coredns</code> 的 pod 一直没法 Ready，查看日志发现是 dial 一直超时，目前还不知道原因是什么，解决办法是重启  <code>coredns</code> 的 Deployment：</p>
+<pre class=" language-bash"><code class="language-bash">kubectl rollout restart deployment coredns -n kube-system</code></pre>
+<p>不过这之后 kube-proxy 就没办法把所有来自集群外部的访问自动定向到相应的 Node 上了，这个也还不知道为什么。不过可以通过 Node 的 IP 地址访问部署到它上面的服务。我的网络使用的是 flannel，目前还没有仔细研究到底是哪里出了问题。</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>Kubernetes的理念就是构建一个长期运行的系统，所以我这种 reset 的方法其实也是不太可取的办法，然后就是一定不要改变集群中节点的 IP 地址，要不然会非常麻烦。我这也算是体验了一把运维人员的工作？</p>
 <p>还有就是，VMware Workstation Pro 16 推出了一个叫 <code>vctl</code>的工具，他会建立一个容器给我们创建一个 Powershell 环境，让我们可以在里面运行 <a href="https://github.com/kubernetes-sigs/kind" target="_blank" rel="noopener">Kind</a> 来模拟 k8s 集群，今天试了试，拉镜像有点慢，所以就先没有搞了，以后可以好好研究一下。下面附上几个用于参考的地址：</p>
 <ul>
