@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="用 Windows 开发遇到的各种问题, リンちゃんなうの部屋">
-    <meta name="description" content="自从之前那段实习结束之后，我的日常开发就转变成了 Windows 10 + WSL2 的方式。刚开始的时候还觉得特爽，等新鲜感过去，这种模式成为常态之后， Windows 以及 WSL2 的各种毛病都逐渐涌现了出来。为了防止我之后再次遇到又">
+    <meta name="keywords" content="2021年4月20日 TEG 云架构部门面经, リンちゃんなうの部屋">
+    <meta name="description" content="一面这次面试我觉得算是我所有面试中（虽然也没面过几次）体验最好的，没有问一道八股，感觉问的全是和部门工作内容紧紧相关的问题。面试官人也很好，虽然问的问题一开始我都答不上来，但是他会一层一层地引导我。结束之后再来看，其实一共也没问几个问题，但">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>用 Windows 开发遇到的各种问题 | リンちゃんなうの部屋</title>
+    <title>2021年4月20日 TEG 云架构部门面经 | リンちゃんなうの部屋</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -286,7 +286,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">用 Windows 开发遇到的各种问题</h1>
+                    <h1 class="description center-align post-title">2021年4月20日 TEG 云架构部门面经</h1>
                 </div>
             </div>
         </div>
@@ -403,12 +403,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Windows/">
-                                <span class="chip bg-color">Windows</span>
+                            <a href="/tags/%E8%85%BE%E8%AE%AF%E9%9D%A2%E8%AF%95/">
+                                <span class="chip bg-color">腾讯面试</span>
                             </a>
                         
-                            <a href="/tags/WSL2/">
-                                <span class="chip bg-color">WSL2</span>
+                            <a href="/tags/C/">
+                                <span class="chip bg-color">C++</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
+                                <span class="chip bg-color">分布式</span>
                             </a>
                         
                     </div>
@@ -419,8 +423,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" class="post-category">
-                                问题解决
+                            <a href="/categories/%E9%9D%A2%E7%BB%8F/" class="post-category">
+                                面经
                             </a>
                         
                     </div>
@@ -432,7 +436,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-04-01
+                    2021-04-20
                 </div>
                 
 
@@ -449,64 +453,46 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>自从之前那段实习结束之后，我的日常开发就转变成了 Windows 10 + WSL2 的方式。刚开始的时候还觉得特爽，等新鲜感过去，这种模式成为常态之后， Windows 以及 WSL2 的各种毛病都逐渐涌现了出来。为了防止我之后再次遇到又变得一筹莫展，我将在这个文章里记录我使用 Windows 10 开发所遇到的各种问题（大概是会持续更新的……）。</p>
-<h2 id="Windows-侧端口被占用的问题"><a href="#Windows-侧端口被占用的问题" class="headerlink" title="Windows 侧端口被占用的问题"></a>Windows 侧端口被占用的问题</h2><h3 id="问题发现"><a href="#问题发现" class="headerlink" title="问题发现"></a>问题发现</h3><p>起因是我有一天早上起来运行我的一个 React 前端项目，然后发现使用 <code>yarn start</code> 执行预设定好的启动脚本启动项目一直失败，报错 5555 端口被占用，重启电脑仍无法解决。这个 5555 端口并不是我自己某个设定中的端口，我觉得应该是我用的某个第三方模组，或者 Node 自生需要的端口，所以我没办法直接更改相关硬编码，只有寻求问题根本所在。</p>
-<h3 id="问题原理与解决办法"><a href="#问题原理与解决办法" class="headerlink" title="问题原理与解决办法"></a>问题原理与解决办法</h3><p>WSL2 是依托于 Hyper-V 进行虚拟化的，而这次的问题就处在 Hyper-V 上。在 Windows 启动后，Hyper-V 会预留几个范围的端口以便后续使用，而这次我就遇到了它将我需要用的 5555 端口占用了。通过以下指令可以查看被占用的端口范围：</p>
-<pre class=" language-powershell"><code class="language-powershell">netsh interface ipv4 show excludedportrange protocol=tcp</code></pre>
-<p>会得到像下面这样类似的输出</p>
-<pre><code>协议 tcp 端口排除范围
-
-开始端口    结束端口
-----------    --------
-     50000       50059     *
-     60767       60866
-     60967       61066
-     61067       61166
-     61167       61266
-     61267       61366
-     61367       61466
-     61855       61954
-     64121       64220
-
-* - 管理的端口排除。</code></pre><p><del>所以的这里的解决办法就是不断地重启系统直至需要的端口不被预留占用为止。</del></p>
-<p>上面的端口排除通常是由 Windows NAT Driver 操作的，所以可以通过关闭它来清除端口占用，然后再重启。</p>
-<pre class=" language-powershell"><code class="language-powershell">net stop winnat
-net <span class="token function">start</span> winnat</code></pre>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://github.com/docker/for-win/issues/3171#issuecomment-739740248" target="_blank" rel="noopener">https://github.com/docker/for-win/issues/3171#issuecomment-739740248</a></li>
-<li><a href="http://www.herlitz.nu/2020/12/01/docker-error-ports-are-not-available-on-windows-10/" target="_blank" rel="noopener">http://www.herlitz.nu/2020/12/01/docker-error-ports-are-not-available-on-windows-10/</a></li>
-</ul>
-<h2 id="WSL2-无法访问局域网-IP-以及互联网"><a href="#WSL2-无法访问局域网-IP-以及互联网" class="headerlink" title="WSL2 无法访问局域网 IP 以及互联网"></a>WSL2 无法访问局域网 IP 以及互联网</h2><h3 id="问题发现-1"><a href="#问题发现-1" class="headerlink" title="问题发现"></a>问题发现</h3><p>今天早上起来打开 WSL2 并使用 VSCode 的 Leetcode 插件准备水道题的，然后发现题怎么样都拉不下来，一直超时，然后发现原来是“断网了”。具体症状表现为：Windows 宿主机可以 ping 通 WSL2，WSL2 无法 ping 通 Windows 宿主机、无法 ping 通局域网中的虚拟机、无法 ping 同互联网上的域名与 IP，重启 WSL2 与 Windows 都无法解决这个问题。一开始以为是 Windows 防火墙的问题，然后给 Windows 的防火墙加了一条入站策略，发现可以 ping 通宿主机了，但是还是无法连接其他 IP 与域名，（我觉得 Windows 防火墙应该也不会妨碍 WSL2 访问外网吧？），所以应该不是防火墙的问题。我又检查了 <code>ip route</code> 与 DNS 发现都是正常的。</p>
-<p>然后我尝试平时挂代理的方式把 http 和 https 代理到了 Windows 宿主机上，发现是可以请求到外网的数据的。但这并不是一个长久之计，而且只能走 http 请求明显无法满足我的需求。</p>
-<p>然后我东搜西找终于在 GitHub 上找到了下面的这条奇葩方法。</p>
-<h3 id="问题原理与解决办法-1"><a href="#问题原理与解决办法-1" class="headerlink" title="问题原理与解决办法"></a>问题原理与解决办法</h3><p>这个问题的原理我目前还不知道，不知道会不会和我前一天重启了 Windows NAT Driver 有关，如果有人知道了可以通过我的邮箱或者其他 SNS 联系我（如果有人看到了的我这篇文章的话……）。</p>
-<p>解决办法是到 <strong>控制面板-&gt;硬件和声音-&gt;电源选项-&gt;系统设置</strong> 里把 <strong>启用快速启动</strong> 取消勾选，然后重启电脑，然后就可以正常上网了，没错，就是这么简单……</p>
-<img src="/images/develop-with-issues-on-windows/battery.png" style="zoom:67%;">
-
-<p>能找到这个解决办法的老哥真的是个神人……希望微软之后能修复这个 bug 吧……</p>
-<h3 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://github.com/microsoft/WSL/issues/4275#issuecomment-740043852" target="_blank" rel="noopener">https://github.com/microsoft/WSL/issues/4275#issuecomment-740043852</a></li>
-<li><a href="https://stephenreescarter.net/wsl2-network-issues-and-win-10-fast-start-up/" target="_blank" rel="noopener">https://stephenreescarter.net/wsl2-network-issues-and-win-10-fast-start-up/</a></li>
-<li><a href="https://blog.csdn.net/swordsm/article/details/107948497" target="_blank" rel="noopener">https://blog.csdn.net/swordsm/article/details/107948497</a> （并未解决此次问题，但也许可以解决其他 WSL2 的网络问题？）</li>
-</ul>
-<h3 id="WSL2-网络代理"><a href="#WSL2-网络代理" class="headerlink" title="WSL2 网络代理"></a>WSL2 网络代理</h3><p>现在的大陆的网络环境害的我们不得不掌握科学上网的技能，又是 WSL2 虚拟化的缘故，当使用科学上网工具进行系统代理时没法将 WSL2 侧的网络也给代理了，于是需要做一些特殊的操作。关于这个的文章网上其实有很多，我这里就简单的记录以下。</p>
-<p>解决办法就是把请求代理（我就只做了 http 与 https 的，其他协议的咱也不知道怎么弄）到 Windows 宿主机这边的科学上网工具的端口上。</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#!bin/bash</span>
-<span class="token comment" spellcheck="true"># WSL2 局域网的宿主机 IP</span>
-host_ip<span class="token operator">=</span><span class="token punctuation">$(</span>cat /etc/resolv.conf <span class="token operator">|</span><span class="token function">grep</span> <span class="token string">"nameserver"</span> <span class="token operator">|</span><span class="token function">cut</span> -f 2 -d <span class="token string">" "</span><span class="token punctuation">)</span>
-protocol<span class="token operator">=</span>科学上网工具使用的协议
-port<span class="token operator">=</span>科学上网工具的本地监听端口
-<span class="token function">export</span> http_proxy<span class="token operator">=</span><span class="token string">"<span class="token variable">$protocol</span>://<span class="token variable">$host_ip</span>:<span class="token variable">$port</span>"</span>
-<span class="token function">export</span> https_proxy<span class="token operator">=</span><span class="token string">"<span class="token variable">$protocol</span>://<span class="token variable">$host_ip</span>:<span class="token variable">$port</span>"</span>
-<span class="token comment" spellcheck="true"># 取消代理</span>
-<span class="token comment" spellcheck="true"># unset http_proxy</span>
-<span class="token comment" spellcheck="true"># unset https_proxy</span></code></pre>
-<p>可以把这个写成一个脚本放在某个地方，然后每次要用的时候就执行一下就行了，相应的可以再写一个取消代理的脚本。不过有一点要注意的就是，使用 <code>sh</code> 执行是会新开一个 shell 来执行的，这样环境变量并没有加载到当前 shell 上，还是無駄的，所以应该用 <code>source</code> 来执行。</p>
-<p>另外值得说的一点是，<code>/etc/resolv.conf</code> 这个文件是 WSL 自动生成的，里面记录 DNS 的地址，在 WSL2 里就是宿主机的 IP，所以可以通过提取这个文件的内容然后在进行一些简单的文本操作就能拿到宿主机 IP。整个文件的内容类似下面这样：</p>
-<pre><code># This file was automatically generated by WSL. To stop automatic generation of this file, add the following entry to /etc/wsl.conf:
-# [network]
-# generateResolvConf = false
-nameserver 172.31.208.1</code></pre><h2 id="看看微软之后还能给我整些什么活"><a href="#看看微软之后还能给我整些什么活" class="headerlink" title="看看微软之后还能给我整些什么活"></a>看看微软之后还能给我整些什么活</h2><p>看看微软之后还能给我整些什么活……</p>
+                <h2 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h2><p>这次面试我觉得算是我所有面试中（虽然也没面过几次）体验最好的，没有问一道八股，感觉问的全是和部门工作内容紧紧相关的问题。面试官人也很好，虽然问的问题一开始我都答不上来，但是他会一层一层地引导我。结束之后再来看，其实一共也没问几个问题，但是因为我太菜了，足足面了1个半小时。</p>
+<h3 id="起手式"><a href="#起手式" class="headerlink" title="起手式"></a>起手式</h3><ol>
+<li>按照常规首先做了个自我介绍。</li>
+<li>问了问我之前在字节的工作内容。</li>
+<li>看到我简历里写了自己动手实现过 raft，然后问了一下我的具体实现，以及我是如何利用 raft 做一个存储系统的。针对我的数据持久化又问了一些问题。最后得知我的 raft 并不支持动态添加节点，遂作罢。</li>
+<li>我旁敲侧击了一下说自己最近在实现一个存储引擎（指 CMU 15-445 的 project），自己手写了 b+ tree 和 query executor 啥的。不过面试官得知了这个存储引擎是单机的之后便不感兴趣了。</li>
+</ol>
+<h3 id="手撕代码"><a href="#手撕代码" class="headerlink" title="手撕代码"></a>手撕代码</h3><ol>
+<li>写一个大数加法。</li>
+</ol>
+<pre class=" language-c++"><code class="language-c++">string add(string a, string b);</code></pre>
+<p>这个直接从最低位一次向前加就行，保留一个进位变量。这个就是要注意一下不等长的情况，以及最低位是从 string 尾开始。只要没不想我被前进方向绕昏了还是能很快写出来的。</p>
+<ol start="2">
+<li>利用上面的大数加法实现大数乘法</li>
+</ol>
+<pre class=" language-c++"><code class="language-c++">string mul(string a, string b);</code></pre>
+<p>一开始我本来想直接按照人类的思维硬怼的，但面试官说你这么写没啥意义，还是用分治法吧。</p>
+<p>具体思路就是利用递归写分治法，每次将较长的那个数分割成两半，分别求乘积，再组合起来即可。</p>
+<pre class=" language-c++"><code class="language-c++">string part1 = mul(longer.substr(0, longer.size() / 2), shorter); // 高位
+string part2 = mul(longer.substr(longer.size(), longer.size() - longer.size() / 2), shorter); // 低位
+add_zero(part1, longer.size() / 2); // 给 part1 补 longer.size() / 2 个 0
+ans = add(part1, part2); // 利用上面的 add 函数</code></pre>
+<p>这里要注意的仍然是方向的问题，不然会像我一样直接丢人。还有就是 string 的 substr 方法第二个参数是指定个数，不是结尾位置。某些语言的切片写多了就容易下意识地以为是结尾位置，如果是 C++ 的话那一般会让你传迭代器。</p>
+<h3 id="分布式-ID-生成器"><a href="#分布式-ID-生成器" class="headerlink" title="分布式 ID 生成器"></a>分布式 ID 生成器</h3><p>设计一个分布式 ID 生成器，每次请求系统生成器会返回一个 ID，每次请求得到的是唯一且递增的。要求尽量做到高并发高可用。</p>
+<ol>
+<li>一开始我的想法和 raft 类似，采用主从结构，每次都从 leader 请求 ID，请求之后 ID 递增，leader 再同步到每个 follower 上。然后面试官说这样 leader 就成为了瓶颈，如何优化一下。</li>
+<li>在面试官的提示下得出了第二个方案。还是主从结构，但是 leader 向 follower 的同步变为了批量方式，就是让 leader 每次攒够<del>一波网络热门生物视频</del> n 次递增 ID 之后再向 follower 同步。然后如果遇到了 leader 挂了需要更换 leader 时，新 leader 直接在现有 ID 基础上 +n+1 即可保证后续的正确性。不过这个方案在每个节点上还是存在很大的性能瓶颈，能不能再优化。</li>
+<li>于是得到了第三个方案，那就是采用无主结构。现在想起来我自己的给的方案是错的，但是面试官并没有发现。晚上经室友提醒，这不就是雪花算法（snowflake）嘛（参考：<a href="https://zhuanlan.zhihu.com/p/85837641" target="_blank" rel="noopener">某篇知乎</a>），不过面试官貌似想让我答的不是雪花这种方法。</li>
+</ol>
+<h3 id="随机数产生器"><a href="#随机数产生器" class="headerlink" title="随机数产生器"></a>随机数产生器</h3><p>这里用 rand(a, b) 表示生成一个在闭区间 [a, b] 之间的整数。</p>
+<ol>
+<li>首先来了个简单的，问如何用 rand(0, 2^16-1) 构造 rand(0, 2^64-1)。这个还算简单，就是 rand(0, 2^16-1) 四次，然后在按位组合起来。（也就是进制转换的思想）。</li>
+<li>然后问如何用 rand(0,6) 构造 rand(0,9)，然后果不其然我答不上来，然后面试官进行了下一步铺垫，如何用 rand(0,6) 构造 rand(0,48)，这个其实和上面的类似。rand(0,6) 产生一个数的概率是 1/7，rand(0,48) 产生一个数的概率是 1/49，这不刚好是平方关系嘛。和 1 类似，按照进制转换结合两个数即可（若第一个产生的数是 a，第二个是 b，那结果就是 7a+b，符合概率和数字分布）。</li>
+<li>得到 rand(0,48) 之后，怎么用它构造 rand(0,9) 呢？不会，好，下一个铺垫，如何构造 rand(0,47)？那使用 rand(0,48) 生成一个随机数，如果产生的数是 48，那再来一遍，直到满足为止。</li>
+<li>那么接下来怎么用 rand(0,48) 构造 rand(0,9) 呢？抛弃掉所有大于 9 的？不太现实。那就利用除法，抛弃掉大于 39 的就是了，然后再除以 4 就可以了（为什么是 39，因为 0-39 的概率是 1/40，0-9 的概率是 1/10，刚好是 4 对 1 的转换）。</li>
+<li>以上过程就能用 rand(0,6) 构造一个 rand(0,9) 了。</li>
+<li>然后接下来问了如何设计一个筛选器，按概率选择对象 A 和 B呢（A 出现的概率为 x，B 出现的概率是 y，x+y=1）。我说，就直接用上面的方法构造一个宽度很大的随机数产生器，随机出一个数看在哪个区域里即可。</li>
+<li>然后将上面的两个对象扩展为 n 个数。遇上同理，每一个对象对应一个随机数区间，然后用一个哈希表之类的维护一下就行。</li>
+</ol>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>有没有用过 C++11、C++17 啥的。写 C++ 的时候有啥使用右值引用的场景。然后我当时卡壳了没想起来，然后结束之后一想，这不就是 std::move() 嘛？然后无了。具体右值引用的东西还得下来看看。</p>
 
             </div>
             <hr/>
@@ -532,7 +518,7 @@ nameserver 172.31.208.1</code></pre><h2 id="看看微软之后还能给我整些
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://rinchannowww.github.io/develop-with-issues-on-windows/">https://rinchannowww.github.io/develop-with-issues-on-windows/</a>
+                    <a href="https://rinchannowww.github.io/2021-4-20-tx-interview/">https://rinchannowww.github.io/2021-4-20-tx-interview/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -570,12 +556,16 @@ nameserver 172.31.208.1</code></pre><h2 id="看看微软之后还能给我整些
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Windows/">
-                                    <span class="chip bg-color">Windows</span>
+                                <a href="/tags/%E8%85%BE%E8%AE%AF%E9%9D%A2%E8%AF%95/">
+                                    <span class="chip bg-color">腾讯面试</span>
                                 </a>
                             
-                                <a href="/tags/WSL2/">
-                                    <span class="chip bg-color">WSL2</span>
+                                <a href="/tags/C/">
+                                    <span class="chip bg-color">C++</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
+                                    <span class="chip bg-color">分布式</span>
                                 </a>
                             
                         </div>
@@ -616,9 +606,10 @@ nameserver 172.31.208.1</code></pre><h2 id="看看微软之后还能给我整些
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2021-4-20-tx-interview/">
                     <div class="card-image">
@@ -636,9 +627,9 @@ nameserver 172.31.208.1</code></pre><h2 id="看看微软之后还能给我整些
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-04-20
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-04-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -651,6 +642,7 @@ nameserver 172.31.208.1</code></pre><h2 id="看看微软之后还能给我整些
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -677,24 +669,24 @@ nameserver 172.31.208.1</code></pre><h2 id="看看微软之后还能给我整些
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/k8s-vm-restart/">
+                <a href="/develop-with-issues-on-windows/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.png" class="responsive-img" alt="记一次虚拟机搭建 k8s 集群踩的坑">
+                        <img src="/medias/featureimages/0.png" class="responsive-img" alt="用 Windows 开发遇到的各种问题">
                         
-                        <span class="card-title">记一次虚拟机搭建 k8s 集群踩的坑</span>
+                        <span class="card-title">用 Windows 开发遇到的各种问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            背景为了做毕设我用 VMware Workstation 创建了三台 Ubuntu Live Server 20.04.2 LTS 虚拟机来模拟一个三节点（Master * 1, Node * 2）的 k8s 集群，也成功地搭建了整个集群，
+                            自从之前那段实习结束之后，我的日常开发就转变成了 Windows 10 + WSL2 的方式。刚开始的时候还觉得特爽，等新鲜感过去，这种模式成为常态之后， Windows 以及 WSL2 的各种毛病都逐渐涌现了出来。为了防止我之后再次遇到又
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-04-01
                             </span>
                         <span class="publish-author">
                             
@@ -711,12 +703,12 @@ nameserver 172.31.208.1</code></pre><h2 id="看看微软之后还能给我整些
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
+                    <a href="/tags/Windows/">
+                        <span class="chip bg-color">Windows</span>
                     </a>
                     
-                    <a href="/tags/Virtual-Machine/">
-                        <span class="chip bg-color">Virtual Machine</span>
+                    <a href="/tags/WSL2/">
+                        <span class="chip bg-color">WSL2</span>
                     </a>
                     
                 </div>
